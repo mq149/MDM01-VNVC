@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MDM01_VNVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MDM01_VNVC.Controllers
 {
@@ -11,6 +13,8 @@ namespace MDM01_VNVC.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IOptions<DocumentDatabaseSettings> settings;
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -18,9 +22,10 @@ namespace MDM01_VNVC.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IOptions<DocumentDatabaseSettings> settings)
         {
             _logger = logger;
+            this.settings = settings;
         }
 
         [HttpGet]
@@ -34,6 +39,13 @@ namespace MDM01_VNVC.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public string GetDatabase()
+        {
+            return settings.Value.ConnectionString;
         }
     }
 }
