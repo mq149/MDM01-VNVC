@@ -27,7 +27,8 @@ namespace MDM01_VNVC
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = builder.Build();
-            RedisVaccinesSeeder.Seed();
+            //RedisVaccinesSeeder.Seed();
+            Neo4jVaccineSeeder.Seed();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -37,6 +38,7 @@ namespace MDM01_VNVC
 
             services.Configure<DocumentDatabaseSettings>(Configuration.GetSection("DocumentDatabase"));
             services.Configure<KeyValueDatabaseSettings>(Configuration.GetSection("KeyValueDatabase"));
+            services.Configure<GraphDatabaseSettings>(Configuration.GetSection("GraphDatabase"));
             services.AddSingleton<IConfiguration>(Configuration);
         }
 

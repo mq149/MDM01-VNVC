@@ -13,11 +13,12 @@
     <None Remove="ServiceStack.Redis" />
     <None Remove="Seeders\" />
     <None Remove="Neo4j.Driver" />
+    <None Remove="Neo4j.Driver.Simple" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.16.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
-    <PackageReference Include="Neo4j.Driver" Version="4.4.0" />
+    <PackageReference Include="Neo4j.Driver.Simple" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
