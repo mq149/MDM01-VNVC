@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text;
+using Neo4j.Driver;
 
 namespace MDM01_VNVC.Models
 {
     public class Vaccine
     {
-        public string Id { get; set; } = $"vaccine:{Guid.NewGuid().ToString()}";
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string ProtectAgainst { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string CountryOfOrigin { get; set; } = string.Empty;
@@ -18,14 +19,24 @@ namespace MDM01_VNVC.Models
             
         }
 
-        public Vaccine(string protectAgainst, string name, string countryOfOrigin, double retailPrice, double preOrderPrice, string status)
+        public Vaccine(string ProtectAgainst, string Name, string CountryOfOrigin, double RetailPrice, double PreOrderPrice, string Status)
         {
-            ProtectAgainst = protectAgainst;
-            Name = name;
-            CountryOfOrigin = countryOfOrigin;
-            RetailPrice = retailPrice;
-            PreOrderPrice = preOrderPrice;
-            Status = status;
+            this.ProtectAgainst = ProtectAgainst;
+            this.Name = Name;
+            this.CountryOfOrigin = CountryOfOrigin;
+            this.RetailPrice = RetailPrice;
+            this.PreOrderPrice = PreOrderPrice;
+            this.Status = Status;
+        }
+
+        public Vaccine(INode node) {
+            Id = node["Id"].As<string>();
+            ProtectAgainst = node["ProtectAgainst"].As<string>();
+            Name = node["Name"].As<string>();
+            CountryOfOrigin = node["CountryOfOrigin"].As<string>();
+            RetailPrice = node["RetailPrice"].As<double>();
+            PreOrderPrice = node["PreOrderPrice"].As<double>();
+            Status = node["Status"].As<string>();
         }
     }
 }

@@ -1,61 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using MDM01_VNVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using StackExchange.Redis;
+using Neo4j.Driver;
 
 namespace MDM01_VNVC.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VaccinePriceListController : ControllerBase
+    public class VaccinePriceListController : ControllerBase, IDisposable
     {
-        private readonly IOptions<KeyValueDatabaseSettings> settings;
+        private readonly IOptions<GraphDatabaseSettings> settings;
+        private readonly IDriver _driver;
+        private bool _disposed = false;
 
-        private readonly IDatabase db;
-
-        public VaccinePriceListController(IOptions<KeyValueDatabaseSettings> settings)
+        public VaccinePriceListController(IOptions<GraphDatabaseSettings> settings)
         {
             this.settings = settings;
-            Console.WriteLine(settings.Value.Host);
-            Console.WriteLine(settings.Value.Port);
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(settings.Value.Host);
-            db = redis.GetDatabase();
+            Console.WriteLine(settings.Value.URI);
+            Console.WriteLine(settings.Value.User);
+            Console.WriteLine(settings.Value.Password);
+            _driver = GraphDatabase.Driver(settings.Value.URI,
+                AuthTokens.Basic(settings.Value.User, settings.Value.Password));
+        }
+
+        ~VaccinePriceListController() => Dispose(false);
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _driver?.Dispose();
+            }
+            _disposed = true;
         }
 
         [HttpGet]
-        public IEnumerable<Vaccine> GetAll()
+        public List<Vaccine> GetAll()
         {
-            var completeSet = db.HashGetAll("vaccines");
-
-            if (completeSet.Length > 0)
+            List<Vaccine> vaccines = new List<Vaccine>();
+            using (var session = _driver.Session())
             {
-                var vaccines = Array.ConvertAll(completeSet, val =>
-                    JsonSerializer.Deserialize<Vaccine>(val.Value)).ToList();
-                return vaccines;
+                var result = session.Run(
+                    "MATCH (v:Vaccine)" +
+                    "RETURN v");
+                
+                foreach (var r in result)
+                {
+                    var node = r["v"].As<INode>();
+                    vaccines.Add(new Vaccine(node));
+                }
             }
-            return null;
+            _driver.CloseAsync();
+            return vaccines;
         }
-
-        [HttpPost]
-        public Vaccine CreateVaccine(Vaccine vac)
-        {
-            if (vac == null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(vac));
-            }
-
-            var serializedVac = JsonSerializer.Serialize(vac);
-
-            db.HashSet($"vaccines", new HashEntry[]
-                {new HashEntry(vac.Id, serializedVac)});
-            return vac;
-        }
-
     }
 }

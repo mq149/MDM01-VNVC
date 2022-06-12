@@ -1,28 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using MDM01_VNVC.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using StackExchange.Redis;
+using Neo4j.Driver;
 
 namespace MDM01_VNVC.Seeders
 {
-    public class RedisVaccinesSeeder
+    public class Neo4jVaccineSeeder
     {
-        public static void Seed()
-        {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-            IDatabase db = redis.GetDatabase();
-
-            var completeSet = db.HashGetAll("vaccines");
-            if (completeSet.Length > 0)
-            {
-                return;
-            }
-
-            List<string[]> vaccines = new List<string[]>(){
+        private static List<string[]> vaccines = new List<string[]>(){
                 new string[] { "Bạch hầu, ho gà, uốn ván, bại liệt và Hib","Infanrix IPV+Hib","Bỉ","785.000","942.000","Có" },
                 new string[] { "Bạch hầu, ho gà, uốn ván, bại liệt, Hib và viêm gan B","Infanrix Hexa (6in1)","Bỉ","1.015.000","1.218.000","Có" },
                 new string[] { "Bạch hầu, ho gà, uốn ván, bại liệt, Hib và viêm gan B","Infanrix Hexa (6in1)","Pháp","1.048.000","1.258.000","Có" },
@@ -71,21 +59,53 @@ namespace MDM01_VNVC.Seeders
                 new string[] { "Các bệnh do Hib","Quimi-Hib","Cu Ba","239.000","287.000","Có" },
                 new string[] { "Tả","mORCVAX","Việt Nam","115.000","138.000","Có" }
             };
-            Console.WriteLine("Begin populating Vaccines data into Redis");
-            foreach (string[] vacccineInfo in vaccines)
+
+        public static void Seed()
+        {
+            IDriver _driver = GraphDatabase.Driver("bolt://localhost:7687",
+                AuthTokens.Basic("neo4j", "neo4j"));
+            using (var session = _driver.Session())
             {
-                Vaccine vac = new Vaccine(vacccineInfo[0],
-                    vacccineInfo[1],
-                    vacccineInfo[2],
-                    double.Parse(vacccineInfo[3].Replace(".", "")),
-                    double.Parse(vacccineInfo[4].Replace(".", "")),
-                    vacccineInfo[5]);
-                var serializedVac = JsonSerializer.Serialize(vac);
-                db.HashSet($"vaccines", new HashEntry[]
-                {new HashEntry(vac.Id, serializedVac)});
+                var countResults = session.Run(
+                    "MATCH (v:Vaccine) " +
+                    "RETURN count(v) as cnt");
+                foreach (var countResult in countResults) {
+                    var count = countResult.Values["cnt"];
+                    Console.WriteLine($"There are currently {count} Vaccines in Neo4j");
+                    if ((long)count > 0)
+                    {
+                        _driver.CloseAsync();
+                        return;
+                    }
+                    break;
+                }
+
+                Console.WriteLine("Begin populating Vaccines data into Neo4j");
+                var writeTrans = session.WriteTransaction(tx =>
+                {
+                    List<IResult> results = new List<IResult>();
+                    foreach (string[] vacccineInfo in vaccines)
+                    {
+                        Vaccine vac = new Vaccine(vacccineInfo[0],
+                            vacccineInfo[1],
+                            vacccineInfo[2],
+                            double.Parse(vacccineInfo[3].Replace(".", "")),
+                            double.Parse(vacccineInfo[4].Replace(".", "")),
+                            vacccineInfo[5]);
+                        var serializedVac = JsonSerializer.Serialize(vac).ToString();
+                        string regexPattern = "\"([^\"]+)\":";
+                        var attributes = Regex.Replace(serializedVac, regexPattern, "$1:");
+                        var stmt = $"CREATE (v:Vaccine {attributes});";
+                        Console.WriteLine(stmt);
+                        var res = tx.Run(stmt);
+                        results.Add(res);
+                    }
+                    return results;
+                });
+                Console.WriteLine("End populating Vaccines data into Neo4j");
+                Console.WriteLine(vaccines.Count + " Vaccines populated.");
             }
-            Console.WriteLine("End populating Vaccines data into Redis");
-            Console.WriteLine(vaccines.Capacity + " Vaccines populated.");
+            _driver.CloseAsync();
         }
     }
 }
