@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using StackExchange.Redis;
 
 namespace MDM01_VNVC
@@ -28,12 +29,21 @@ namespace MDM01_VNVC
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = builder.Build();
             //RedisVaccinesSeeder.Seed();
-            Neo4jVaccineSeeder.Seed();
+            //Neo4jVaccineSeeder.Seed();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+               .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+               = new DefaultContractResolver());
             services.AddControllers();
 
             services.Configure<DocumentDatabaseSettings>(Configuration.GetSection("DocumentDatabase"));
@@ -49,6 +59,7 @@ namespace MDM01_VNVC
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
