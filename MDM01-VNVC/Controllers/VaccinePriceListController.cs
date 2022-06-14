@@ -14,6 +14,7 @@ namespace MDM01_VNVC.Controllers
         private readonly IOptions<GraphDatabaseSettings> settings;
         private readonly IDriver _driver;
         private bool _disposed = false;
+        private Action<SessionConfigBuilder> sessionConfig;
 
         public VaccinePriceListController(IOptions<GraphDatabaseSettings> settings)
         {
@@ -23,6 +24,7 @@ namespace MDM01_VNVC.Controllers
             Console.WriteLine(settings.Value.Password);
             _driver = GraphDatabase.Driver(settings.Value.URI,
                 AuthTokens.Basic(settings.Value.User, settings.Value.Password));
+            sessionConfig = SessionConfigBuilder.ForDatabase("vnvc");
         }
 
         ~VaccinePriceListController() => Dispose(false);
@@ -49,7 +51,7 @@ namespace MDM01_VNVC.Controllers
         public List<Vaccine> GetAll()
         {
             List<Vaccine> vaccines = new List<Vaccine>();
-            using (var session = _driver.Session())
+            using (var session = _driver.Session(sessionConfig))
             {
                 var result = session.Run(
                     "MATCH (v:Vaccine)" +
