@@ -64,7 +64,8 @@ namespace MDM01_VNVC.Seeders
         {
             IDriver _driver = GraphDatabase.Driver("bolt://localhost:7687",
                 AuthTokens.Basic("neo4j", "neo4j"));
-            using (var session = _driver.Session())
+            Action<SessionConfigBuilder> sessionConfig = SessionConfigBuilder.ForDatabase("vnvc");
+            using (var session = _driver.Session(sessionConfig))
             {
                 var countResults = session.Run(
                     "MATCH (v:Vaccine) " +
