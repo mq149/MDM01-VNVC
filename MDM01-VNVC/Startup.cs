@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MDM01_VNVC.Models;
-using MDM01_VNVC.Seeders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,8 +26,6 @@ namespace MDM01_VNVC
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = builder.Build();
-            //RedisVaccinesSeeder.Seed();
-            Neo4jVaccineSeeder.Seed();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
