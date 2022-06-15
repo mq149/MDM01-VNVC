@@ -1,28 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../../common/app.css" />
-    <link rel="stylesheet" href="./index.css" />
-    <title>VNVC - Vaccine Price List</title>
-  </head>
-  <body>
-    <h1>Vaccine Price List</h1>
-    <script type="module" src="./index.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../../common/app.css" />
+        <link rel="stylesheet" href="./index.css" />
+        <title>VNVC - Vaccine Price List</title>
+    </head>
+    <body>
+        <div id="app" class="p-4">
+            <h1>Bảng giá</h1>
+            <div class="table-container">
+                <table id="vaccine-price-list" class="">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Phòng bệnh</th>
+                            <th class="light-blue" scope="col">Tên vắc xin</th>
+                            <th class="light-blue" scope="col">
+                                Nước sản xuất
+                            </th>
+                            <th class="blue" scope="col">Giá bán lẻ (vnđ)</th>
+                            <th class="blue" scope="col">
+                                Giá đặt giữ theo yêu cầu (vnđ)
+                            </th>
+                            <th class="blue" scope="col">Tình trạng</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <p>
+                <b style="color: red"
+                    >(*) Vui lòng liên hệ hotline
+                    <a href="tel:02873006595">028.7300.6595</a> hoặc đến trực
+                    tiếp các trung tâm tiêm chủng VNVC trên cả nước để được tư
+                    vấn.</b
+                >
+            </p>
+        </div>
+        <script type="module" src="./index.js"></script>
+    </body>
 </html>
