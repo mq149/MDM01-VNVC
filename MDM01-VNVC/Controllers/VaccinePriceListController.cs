@@ -53,6 +53,7 @@ namespace MDM01_VNVC.Controllers
             List<Vaccine> vaccines = new List<Vaccine>();
             using (var session = _driver.Session(sessionConfig))
             {
+
                 var result = session.Run(
                     "MATCH (v:Vaccine)" +
                     "RETURN v");
