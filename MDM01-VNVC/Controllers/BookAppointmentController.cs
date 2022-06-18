@@ -37,9 +37,9 @@ namespace MDM01_VNVC.Controllers
         public JsonResult Find(string value)
         {
             var collection = dbClient.GetDatabase(settings.Value.DatabaseName).GetCollection<BookAppointment>(settings.Value.BookAppointmentsCollectionName);
-            //var filter1 = Builders<BookAppointment>.Filter.Eq("FullName",value);
+            var filter1 = Builders<BookAppointment>.Filter.Eq("FullName",value);
             var filter2 = Builders<BookAppointment>.Filter.Eq("PhoneNumber", value);
-           // var dbList1 = collection.Find(filter1).FirstOrDefault();
+            var dbList1 = collection.Find(filter1).ToList();
             var dbList2 = collection.Find(filter2).ToList();
             return new JsonResult(dbList2[dbList2.Count()-1]);
             
