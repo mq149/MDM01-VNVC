@@ -32,7 +32,6 @@ namespace MDM01_VNVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -42,11 +41,11 @@ namespace MDM01_VNVC
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                = new DefaultContractResolver());
-=======
+
             services.AddCors(c => {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
->>>>>>> origin/master
+
             services.AddControllers();
 
             services.Configure<DocumentDatabaseSettings>(Configuration.GetSection("DocumentDatabase"));
