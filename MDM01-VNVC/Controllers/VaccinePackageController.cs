@@ -49,28 +49,27 @@ namespace MDM01_VNVC.Controllers
         public VacinePackage GetPackage(int id)
         {
             VacinePackage packagevaccine = new VacinePackage();
+            List<VacinePackageDescribe> vacinepackagedescribes = new List<VacinePackageDescribe>();
             using (var session = _driver.Session(sessionConfig))
             {
-             
-                var result = session.Run(
-                    "match (d:DanhMuc)<-[:Thuoc]-(g:GoiVC)-[:Co]->(l:LoaiGoiVC{Id:"+id+"})-[r:Gom]->(vc:Vaccine) return vc,d.tenDM as tendm,g.tenGoiVC as tengoi ,l.tenLoai as loaigoi,r.soLuong as soluong");
-                if (result.FirstOrDefault()["tendm"].As<string>() != null)
-                {
-                    packagevaccine.Id = id;
-                    packagevaccine.DanhMuc = result.FirstOrDefault()["tendm"].As<string>();
-                    packagevaccine.GoiVaccine = result.FirstOrDefault()["tengoi"].As<string>();
-                    packagevaccine.LoaiGoi = result.FirstOrDefault()["loaigoi"].As<string>();
-                    List<VacinePackageDescribe> vacinepackagedescribes = new List<VacinePackageDescribe>();
-                    foreach (var r in result)
-                    {
-                        var node = r["vc"].As<INode>();
-                        VacinePackageDescribe t = new VacinePackageDescribe(new Vaccine(node), r["soluong"].As<int>());
-                        vacinepackagedescribes.Add(t);
-                    }
-                    packagevaccine.VacinePackageDescribes = vacinepackagedescribes;
-                    packagevaccine.TotalPrice = vacinepackagedescribes.Sum(x => x.Vaccine.RetailPrice * x.Quantity);
-                    packagevaccine.TotalCount = vacinepackagedescribes.Sum(x => x.Quantity);
-                }
+                var statement = $"match (d:DanhMuc)<-[:Thuoc]-(g:GoiVC)-[:Co]->(l:LoaiGoiVC {{Id:{id}}})-[r:Gom]->(vc:Vaccine) return vc,r.soLuong as soluong, d.tenDM as tendm,g.tenGoiVC as tengoi ,l.tenLoai as loaigoi";
+                var result = session.Run(statement);
+                packagevaccine.Id = id;
+                var a = result.First();
+                packagevaccine.DanhMuc = a["tendm"].As<string>();
+                packagevaccine.GoiVaccine = a["tengoi"].As<string>();
+                packagevaccine.LoaiGoi = a["loaigoi"].As<string>();
+                var node = a["vc"].As<INode>();
+                vacinepackagedescribes.Add(new VacinePackageDescribe(new Vaccine(node), a["soluong"].As<int>()));
+                //var result2 = session.Run(statement2);
+                foreach (var r in result)
+                {                   
+                    node = r["vc"].As<INode>();                       
+                    vacinepackagedescribes.Add(new VacinePackageDescribe(new Vaccine(node), r["soluong"].As<int>()));
+                }              
+                packagevaccine.VacinePackageDescribes = vacinepackagedescribes;
+                packagevaccine.TotalPrice = vacinepackagedescribes.Sum(x => x.Vaccine.RetailPrice * x.Quantity);
+                packagevaccine.TotalCount = vacinepackagedescribes.Sum(x => x.Quantity);
             }
             _driver.CloseAsync();
             return packagevaccine;
