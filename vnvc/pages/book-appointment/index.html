@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../../common/app.css" />
+  <link rel="stylesheet" href="./index.css" />
+  <title>TITLE</title>
+</head>
+
+<body>
+  <script src="./index.js"></script>
+  <div class="container">
+    <h5>Thông tin người tiêm</h5>
+    <br>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="name">Họ và tên</label> <br>
+          <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên">
+        </div>
+        <div class="form-group">
+          <label for="sex">Giới tính</label> <br>
+          <div class="el-form-item__content">
+            <div role="radiogroup" class="el-radio-group ep-full">
+              <label role="radio" tabindex="-1" class="el-radio-button">
+                <input type="radio" tabindex="-1" autocomplete="off" class="el-radio-button__orig-radio" value="1">
+                <span class="el-radio-button__inner">Nam
+                  <!---->
+                </span>
+              </label><label role="radio" tabindex="-1" class="el-radio-button">
+                <input type="radio" tabindex="-1" autocomplete="off" class="el-radio-button__orig-radio" value="0">
+                <span class="el-radio-button__inner">Nữ
+                  <!---->
+                </span>
+              </label>
+            </div>
+            <!---->
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="birthday">Ngày sinh</label>
+          <input type="date" class="form-control" id="birthday" placeholder="Nhập ngày sinh">
+        </div>
+        <div class="form-group">
+          <label for="customerid">Mã khách hàng (nếu có)</label> <br>
+          <input type="text" class="form-control" id="customerid" placeholder="1712483">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="city">Tỉnh thành</label> <br>
+          <select class="selction" id="selection_city" type="text" name="city">
+            <option value="None" selected="selected"></option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="dictrict">Quận huyện</label> <br>
+          <select class="selction" id="selection_dictrict" type="text" name="dictrict">
+          </select>
+
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="ward">Phường xã</label> <br>
+          <select class="selction" id="selection_ward" type="text" name="ward">
+          </select>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="Street">Số nhà, tên đường</label> <br>
+          <input type="text" class="form-control" id="name" placeholder="81 đường số 9">
+        </div>
+      </div>
+    </div>
+    <br>
+    <h5>Thông tin liên hệ</h5>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="contactName">Tên người liên hệ</label> <br>
+          <input type="text" class="form-control" id="contactname" placeholder="">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="contactType">Mối quan hệ với người tiêm</label> <br>
+          <select class="selction" id="selection_city" type="text" name="city">
+            <option value="Bản thân" selected="selected">Bản thân</option>
+            <option value="Con">Con</option>
+            <option value="Cha">Cha</option>
+            <option value="Mẹ">Mẹ</option>
+            <option value="Vợ">Vợ</option>
+            <option value="Chồng">Chồng</option>
+            <option value="Anh">Anh</option>
+            <option value="Chị">Chị</option>
+            <option value="Em">Em</option>
+            <option value="Ông">Ông</option>
+            <option value="Bà">Bà</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="phone">Số điện thoại liên hệ</label> <br>
+          <input type="text" class="form-control" id="phone" placeholder="">
+        </div>
+      </div>
+    </div>
+    <br>
+    <h5>Thông tin dịch vụ</h5>
+    <br>
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="type">Loại vaccine muốn đăng kí</label> <br>
+          <div>
+            <div>
+              <label>
+                <input type="radio" autocomplete="off" value="package" class="check_type">
+                <span>Vaccine gói
+                  <!---->
+                </span>
+              </label>
+              <label>
+                <input type="radio" autocomplete="off" value="retail" class="check_type">
+                <span>Vaccine lẻ
+                  <!---->
+                </span>
+              </label>
+            </div>
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="vaccines"></div>
+    <div class="form-group">
+      <label for="bookCenter">Trung tâm đăng kí tiêm</label>
+      <select class="selction" id="selection_city" type="text" name="city">
+        <option value="Miền Bắc" disabled>Khu vực miền Bắc</option>
+        <option value="VNVC Thái Bình">VNVC Thái Bình</option>
+        <option value="VNVC Mỹ Đình">VNVC Mỹ Đình</option>
+        <option value="VNVC Long Biên">VNVC Long Biên</option>
+        <option value="Miền Trung" disabled>Khu vực miền Trung</option>
+        <option value="VNVC Phan Thiết">VNVC Phan Thiết</option>
+        <option value="VNVC Quảng Ngãi">VNVC Quảng Ngãi</option>
+        <option value="VNVC Quy Nhơn">VNVC Quy Nhơn</option>
+        <option value="Miền Nam" disabled>Khu vực miền Nam</option>
+        <option value="VNVC Quận 1" selected="selected">VNVC Quận 1</option>
+        <option value="VNVC Vũng Tàu">VNVC Vũng Tàu</option>
+        <option value="VNVC Long Khánh">VNVC Long Khánh</option>
+        <option value="VNVC Đồng Nai">VNVC Đồng Nai</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="bookDate">Ngày đăng kí tiêm</label>
+      <input type="date" class="form-control" id="bookDate" placeholder="">
+    </div>
+  </div>
+</body>
+
+</html>

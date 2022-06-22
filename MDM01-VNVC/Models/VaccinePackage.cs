@@ -17,6 +17,7 @@ namespace MDM01_VNVC.Models
         public string LoaiGoi { get; set; }
         public double TotalPrice { get; set; }
         public int TotalCount { get; set; }
+        public string Describe { get; set; }
         public List<VacinePackageDescribe> VacinePackageDescribes { get; set; }
     }
 
