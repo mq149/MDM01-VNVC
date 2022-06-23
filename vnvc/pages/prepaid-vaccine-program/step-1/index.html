@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../../../common/app.css" />
+        <link rel="stylesheet" href="./index.css" />
+        <title>VNVC - Prepaid vaccine program</title>
+    </head>
+    <body>
+        <div id="app" class="container row p-4">
+            <div class="col">
+                <h1>Prepaid vaccine program - Step 1</h1>
+                <h3>THÔNG TIN NGƯỜI ĐƯỢC TIÊM</h3>
+                <p class="info">
+                    Quý khách có thể đăng ký cùng lúc cho tối đa 5 người tiêm,
+                    VNVC chỉ thực hiện tiêm chủng cho Khách hàng có thông tin
+                    đăng ký trùng khớp hoàn toàn với thông tin Quý Khách cung
+                    cấp tại đây.
+                </p>
+                <div class="divider"></div>
+                <form>
+                    <div class="form-row d-flex align-items-end">
+                        <div class="form-group col-sm">
+                            <label for="customerCode"
+                                >Nhập mã khách hàng tại VNVC</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="customerCode"
+                                placeholder="Mã khách hàng VNVC"
+                            />
+                        </div>
+                        <div class="form-group col-sm">
+                            <label for="customerDateOfBirth"
+                                >Ngày tháng năm sinh</label
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="customerDateOfBirth"
+                                placeholder="Ngày sinh"
+                            />
+                        </div>
+                        <div
+                            class="form-group col-sm d-flex flex-column align-items-stretch"
+                        >
+                            <button class="btn-primary btn">KIỂM TRA</button>
+                        </div>
+                    </div>
+                    <p class="info">
+                        Nếu đã có mã số tiêm chủng tại VNVC (mã khách hàng), vui
+                        lòng nhập mã tiêm chủng và ngày tháng năm sinh để tự
+                        động điền thông tin. Mã tiêm chủng VNVC là dãy số được
+                        in trên sticker dán trên sổ tiêm chủng.
+                    </p>
+                    <div class="dropdown-divider"></div>
+                    <!-- Full Name, Relationship -->
+                    <div class="row d-flex">
+                        <div
+                            class="form-group col d-flex flex-column justify-content-between"
+                        >
+                            <label for="fullName">Họ và tên</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="fullName"
+                                placeholder="Họ và tên"
+                            />
+                        </div>
+                        <div class="form-group col">
+                            <label for="relationship">Mối quan hệ</label>
+                            <p class="info">
+                                Khách hàng chỉ được đăng ký vắc xin cho người
+                                thân trong các quan hệ sau:
+                            </p>
+                            <select id="relationship" class="form-control">
+                                <option value="">Chọn mối quan hệ</option>
+                                <option value="1" selected>Bản thân</option>
+                                <option value="2">Cha</option>
+                                <option value="3">Mẹ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Date of birth, Gender -->
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="dateOfBirth">Ngày sinh</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="dateOfBirth"
+                                placeholder="Ngày sinh"
+                            />
+                        </div>
+                        <div class="form-group col d-flex flex-column">
+                            <label for="gender">Giới tính</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderRadio1"
+                                        value="Nam"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="genderRadio1"
+                                        >Nam</label
+                                    >
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderRadio2"
+                                        value="Nữ"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="genderRadio2"
+                                        >Nữ</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Phone Number, Email -->
+                    <div class="row d-flex">
+                        <div class="form-group col">
+                            <label for="phoneNumber">Số điện thoại</label>
+                            <p class="info">
+                                Nếu người được tiêm chưa có SĐT, vui lòng điền
+                                SĐT của cha/mẹ hoặc người giám hộ sẽ nhận mã
+                                tiêm chủng
+                            </p>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="phoneNumber"
+                                placeholder="Số điện thoại"
+                            />
+                        </div>
+                        <div
+                            class="form-group col d-flex flex-column justify-content-between"
+                        >
+                            <label for="email">Email</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="email"
+                                placeholder="Email"
+                            />
+                        </div>
+                    </div>
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label for="addressLine">Địa chỉ</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="addressLine"
+                            placeholder="Số nhà, tên đường (Theo hộ khẩu/CMND)"
+                        />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="province">Tỉnh/Thành</label>
+                            <select id="province" class="form-control">
+                                <option value="" selected>Tính/Thành</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="district">Quận/Huyện</label>
+                            <select id="district" class="form-control">
+                                <option value="" selected>Quận/Huyện</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ward">Phường/Xã</label>
+                            <select id="ward" class="form-control">
+                                <option value="" selected>Phường/Xã</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <!-- VNVC Center -->
+                    <h3>CHỌN ĐỊA ĐIỂM MONG MUỐN TIÊM</h3>
+                    <div class="row d-flex">
+                        <div class="form-group col">
+                            <label for="centerProvince">Tỉnh/Thành</label>
+                            <select id="centerProvince" class="form-control">
+                                <option value="">Tỉnh/Thành</option>
+                                <option value="1" selected>
+                                    TP. Hồ Chí Minh
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="vnvcCenter"
+                                >Trung tâm VNVC gần quý khách</label
+                            >
+                            <select id="vnvcCenter" class="form-control">
+                                <option value="">Trung tâm VNVC</option>
+                                <option value="1" selected>
+                                    VNVC Đặng Văn Bi, Thủ Đức
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <!-- Vaccine seletion -->
+                    <h3>CHỌN VẮC XIN CHO NGƯỜI TIÊM</h3>
+                    <p class="info">
+                        Quý khách có thể đăng ký thêm các loại vắc xin khác và
+                        sử dụng cho nhiều lần tiêm khác nhau.
+                    </p>
+                    <div class="row d-flex align-items-end">
+                        <div class="form-group col">
+                            <label for="centerCity">Vắc xin/Gói vắc xin</label>
+                            <select
+                                id="vaccines-vaccine-packs"
+                                class="form-control"
+                            >
+                                <option value="" selected>
+                                    Vắc xin/Gói vắc xin
+                                </option>
+                            </select>
+                        </div>
+                        <div
+                            class="form-group col-sm d-flex flex-column align-items-stretch"
+                        >
+                            <button
+                                type="button"
+                                id="add-vaccine"
+                                class="btn-primary btn"
+                            >
+                                THÊM VẮC XIN
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="dropdown-divider"></div>
+                <h3>DANH SÁCH VẮC XIN ĐĂNG KÝ</h3>
+                <div class="selected-vaccine-list row"></div>
+                <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
+                <button type="button" class="btn btn-primary next" id="test">
+                    TIẾP TỤC
+                </button>
+            </div>
+            <div class="col-4">
+                <div class="registration-info-container p-2">
+                    <!-- <div class="registrant-info">
+                        <h4>Người đăng ký</h4>
+                        <div class="customer-item row">
+                            <div class="col">
+                                <label>Họ và tên (Mối quan hệ)</label>
+                                <p class="info">Vắc xin:</p>
+                                <p class="info">Trung tâm:</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div> -->
+                    <div class="customers-info">
+                        <h4>Danh sách người tiêm</h4>
+                        <div class="customer-list">
+                            <div class="customer-item">
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Họ và tên (Mối quan hệ)</label>
+                                        <p class="info">Vắc xin:</p>
+                                        <p class="info">Trung tâm:</p>
+                                    </div>
+                                    <div class="actions col-sm-2 p-1">
+                                        <a href="">Xoá</a>
+                                    </div>
+                                </div>
+                                <div
+                                    class="subtotal d-flex flex-row align-items-center justify-content-between"
+                                >
+                                    <p
+                                        class="info"
+                                        style="vertical-align: middle"
+                                    >
+                                        Thành tiền
+                                    </p>
+                                    <label>180.000 VNĐ</label>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </div>
+                        <div
+                            class="total-container d-flex flex-row align-items-center justify-content-between"
+                        >
+                            <p class="info" style="vertical-align: middle">
+                                Tổng số tiền cần thanh toán
+                            </p>
+                            <label>180.000 VNĐ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="vaccine-item-template" hidden>
+            <div class="selected-vaccine-item col-sm-4 d-flex flex-column">
+                <div
+                    class="row p-3 d-flex justify-content-between align-items-center"
+                >
+                    <label class="vaccine-name"></label>
+                    <button type="button" class="btn btn-danger remove-vaccine">
+                        Xoá
+                    </button>
+                </div>
+                <label class="vaccine-price"></label>
+                <p class="vaccine-protect-against"></p>
+            </div>
+        </div>
+        <script src="./index.js"></script>
+    </body>
+</html>

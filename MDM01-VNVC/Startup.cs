@@ -34,8 +34,7 @@ namespace MDM01_VNVC
             services.AddCors(c => {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-            services.AddControllers();
-
+            services.AddControllers().AddNewtonsoftJson();
             services.Configure<DocumentDatabaseSettings>(Configuration.GetSection("DocumentDatabase"));
             services.Configure<KeyValueDatabaseSettings>(Configuration.GetSection("KeyValueDatabase"));
             services.Configure<GraphDatabaseSettings>(Configuration.GetSection("GraphDatabase"));
