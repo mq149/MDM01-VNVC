@@ -23,7 +23,7 @@
     </head>
     <body>
         <div id="app" class="container row p-4">
-            <div class="col">
+            <div class="col-8">
                 <h1>Prepaid vaccine program - Step 1</h1>
                 <h3>THÔNG TIN NGƯỜI ĐƯỢC TIÊM</h3>
                 <p class="info">
@@ -33,6 +33,13 @@
                     cấp tại đây.
                 </p>
                 <div class="divider"></div>
+                <input
+                    id="currentCustomerIndex"
+                    type="text"
+                    value="0"
+                    disabled
+                    hidden
+                />
                 <form>
                     <div class="form-row d-flex align-items-end">
                         <div class="form-group col-sm">
@@ -260,9 +267,11 @@
                 <div class="dropdown-divider"></div>
                 <h3>DANH SÁCH VẮC XIN ĐĂNG KÝ</h3>
                 <div class="selected-vaccine-list row"></div>
-                <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
                 <button type="button" class="btn btn-primary next" id="test">
                     TIẾP TỤC
+                </button>
+                <button type="button" class="btn btn-primary" id="add-customer">
+                    THÊM NGƯỜI TIÊM
                 </button>
             </div>
             <div class="col-4">
@@ -288,8 +297,12 @@
                                         <p class="info">Vắc xin:</p>
                                         <p class="info">Trung tâm:</p>
                                     </div>
-                                    <div class="actions col-sm-2 p-1">
-                                        <a href="">Xoá</a>
+                                    <div class="actions col-auto">
+                                        <button
+                                            class="btn btn-danger remove-customer"
+                                        >
+                                            Xoá
+                                        </button>
                                     </div>
                                 </div>
                                 <div
@@ -312,24 +325,56 @@
                             <p class="info" style="vertical-align: middle">
                                 Tổng số tiền cần thanh toán
                             </p>
-                            <label>180.000 VNĐ</label>
+                            <label id="total-price">180.000 VNĐ</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="vaccine-item-template" hidden>
-            <div class="selected-vaccine-item col-sm-4 d-flex flex-column">
-                <div
-                    class="row p-3 d-flex justify-content-between align-items-center"
-                >
-                    <label class="vaccine-name"></label>
-                    <button type="button" class="btn btn-danger remove-vaccine">
-                        Xoá
-                    </button>
+        <div class="templates" hidden>
+            <div class="vaccine-item-template" hidden>
+                <div class="selected-vaccine-item col-sm-4 d-flex flex-column">
+                    <div
+                        class="row p-3 d-flex justify-content-between align-items-center"
+                    >
+                        <label class="vaccine-name"></label>
+                        <button
+                            type="button"
+                            class="btn btn-danger remove-vaccine"
+                        >
+                            Xoá
+                        </button>
+                    </div>
+                    <label class="vaccine-price"></label>
+                    <p class="vaccine-protect-against"></p>
                 </div>
-                <label class="vaccine-price"></label>
-                <p class="vaccine-protect-against"></p>
+            </div>
+            <div class="customer-item-template" hidden>
+                <div class="customer-item">
+                    <div class="row">
+                        <div class="col">
+                            <label class="name-relationship"
+                                >Họ và tên (Mối quan hệ)</label
+                            >
+                            <p class="vaccines-info">Vắc xin:</p>
+                            <p class="vnvc-center-info">Trung tâm:</p>
+                        </div>
+                        <div class="actions col-auto">
+                            <button class="btn btn-danger remove-customer">
+                                Xoá
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="subtotal d-flex flex-row align-items-center justify-content-between"
+                    >
+                        <p class="info" style="vertical-align: middle">
+                            Thành tiền
+                        </p>
+                        <label class="subtotal-price">180.000 VNĐ</label>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                </div>
             </div>
         </div>
         <script src="./index.js"></script>

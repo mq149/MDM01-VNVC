@@ -147,6 +147,37 @@ function displaySelectedVaccines(selectedVaccines) {
     });
 }
 
+function displayCustomers(customers) {
+    $(".customer-list").html("");
+    var total = 0;
+    for (const [index, customer] of Object.entries(customers)) {
+        if (Object.keys(customer).length == 0) continue;
+        let $template = $("div.customer-item-template .customer-item").clone();
+        $template.attr("id", index);
+        $template.find("label.name-relationship").first().text(`
+            ${customer["information"]?.fullName} (${customer["relationship"]})
+        `);
+        let vaccineString = customer["vaccines"]
+            ?.map((vaccine) => vaccine.name)
+            .join(", ");
+        $template
+            .find("p.vaccines-info")
+            .first()
+            .text(`Vắc xin: ${vaccineString}`);
+        $template
+            .find("p.vnvc-center-info")
+            .first()
+            .text(`Trung tâm: ${customer["vnvcCenter"]?.name}`);
+        let subtotal = customer.vaccines
+            ?.map((vaccine) => vaccine.retailPrice)
+            .reduce((s, a) => s + a, 0);
+        total += subtotal;
+        $template.find("label.subtotal-price").first().text(`${subtotal} VNĐ`);
+        $(".customer-list").append($template);
+    }
+    $("label#total-price").html(`${total} VNĐ`);
+}
+
 function validateForm(selectedVaccines) {
     let inputIds = [
         "fullName",
@@ -180,13 +211,42 @@ function validateForm(selectedVaccines) {
         if ($(`select#${id} option:selected`).val() === "") {
             return false;
         }
-        formData[id] = $(`select#${id} option:selected`).val();
+        formData[id] = $(`select#${id} option:selected`).text().trim();
     }
     if (selectedVaccines.length == 0) {
         return false;
     }
     formData["vaccines"] = selectedVaccines;
-    return formData;
+    let customerData = {
+        information: {
+            fullName: formData["fullName"],
+            phoneNumber: formData["phoneNumber"],
+            gender: formData["gender"],
+            dateOfBirth: formData["dateOfBirth"],
+            email: formData["email"],
+            address: new Address(
+                formData["addressLine"],
+                formData["ward"],
+                formData["district"],
+                formData["province"]
+            ),
+        },
+        relationship: formData["relationship"],
+        vaccines: formData["vaccines"].map((vaccine) => {
+            return {
+                id: vaccine.id,
+                name: vaccine.name,
+                retailPrice: vaccine.retailPrice,
+            };
+        }),
+        vaccinePackages: [],
+        vnvcCenter: new VnvcCenter(
+            "",
+            formData["centerProvince"],
+            formData["vnvcCenter"]
+        ),
+    };
+    return JSON.parse(JSON.stringify(customerData));
 }
 
 // Data functions
@@ -350,4 +410,24 @@ $(function () {
         displaySelectedVaccines(selectedVaccines[currentCustomerIndex]);
         displayVaccines(vaccines, selectedVaccines[currentCustomerIndex]);
     });
+
+    $("body").on("click", "button#add-customer", function (e) {
+        saveCurrentCustomerData();
+        displayCustomers(customers);
+    });
+
+    // Data functions
+    function saveCurrentCustomerData() {
+        let _currentCustomerIndex = $("input#currentCustomerIndex").val() || "";
+        if (_currentCustomerIndex == "") {
+            return alert("Đã có lỗi xảy ra.");
+        }
+        currentCustomerIndex = _currentCustomerIndex;
+        let formData = validateForm(selectedVaccines[currentCustomerIndex]);
+        if (formData == false) {
+            return alert("Vui lòng điền đầy đủ thông tin.");
+        }
+        console.log(formData);
+        customers[currentCustomerIndex] = formData;
+    }
 });
