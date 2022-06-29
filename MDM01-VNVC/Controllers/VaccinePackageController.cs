@@ -130,21 +130,56 @@ namespace MDM01_VNVC.Controllers
         }
 
         [HttpGet("danhmuc")]
-        public List<string> GetAllNamePackage()
+        public List<VacinePackage> GetAllNamePackage()
         {
-            List<string> danhmuc = new List<string>();
+            List<VacinePackage> danhmuc = new List<VacinePackage>();
             using (var session = _driver.Session(sessionConfig))
             {
-                var statement = $"match (d:DanhMuc) return d.tenDM as tendm";
+                var statement = $"match (d:DanhMuc) return d.Id as Id,d.tenDM as tendm";
                 var result = session.Run(statement);
                 foreach (var r in result)
                 {
-                    string temp = r["tendm"].As<string>();
-                    danhmuc.Add(temp);
+                    VacinePackage vacinepackage = new VacinePackage();
+                    vacinepackage.Id = r["Id"].As<int>();
+                    vacinepackage.DanhMuc = r["tendm"].As<string>();
+                    danhmuc.Add(vacinepackage);
                 }
             }
             _driver.CloseAsync();
             return danhmuc;
         }
+
+        [HttpGet("danhmuc/{id}")]
+        public List<VacinePackage> GetPackages(int id)
+        {
+            List<VacinePackage> packages = new List<VacinePackage>();
+            using (var session = _driver.Session(sessionConfig))
+            {
+                var statement = $"MATCH (d:DanhMuc{{Id:{id}}})<-[:Thuoc]-(g:GoiVC)-[:Co]->(l:LoaiGoiVC)-[r:Gom]->(vc:Vaccine)"+
+                        "CALL { MATCH (d:DanhMuc {Id:"+id+"})<-[:Thuoc]-(g:GoiVC)-[:Co]->(l:LoaiGoiVC)-[r:Gom]->(vc:Vaccine)" +
+                         "   RETURN collect(vc.ProtectAgainst) AS protectagainsts }"+
+                        "RETURN DISTINCT l.Id AS Id,d.tenDM AS TenDanhMuc,g.tenGoiVC AS TenGoiVaccine,l.tenLoai AS TenLoaiGoi,"+
+                        "count(vc) AS SoLuongVaccine,sum(r.soLuong) AS TongSoLieu,sum(r.soLuong*vc.RetailPrice) AS GiaGoi,protectagainsts as ProtectAgainsts";
+                var result = session.Run(statement);
+                Console.WriteLine(statement);
+                foreach (var r in result)
+                {
+                    VacinePackage vacinepackage = new VacinePackage();
+                    vacinepackage.Id = r["Id"].As<int>();
+                    vacinepackage.DanhMuc = r["TenDanhMuc"].As<string>();
+                    vacinepackage.GoiVaccine = r["TenGoiVaccine"].As<string>();
+                    vacinepackage.LoaiGoi = r["TenLoaiGoi"].As<string>();
+                    vacinepackage.DanhMuc = r["TenDanhMuc"].As<string>();
+                    vacinepackage.TotalCount=r["TongSoLieu"].As<int>();
+                    vacinepackage.TotalPrice = r["GiaGoi"].As<double>();
+                    vacinepackage.Describe = String.Join(", ",r["ProtectAgainsts"].As<List<string>>());
+                    packages.Add(vacinepackage);
+                }
+                //Console.WriteLine(packages[0].DanhMuc);
+            }
+            _driver.CloseAsync();
+            return packages;
+        }
+
     }
 }

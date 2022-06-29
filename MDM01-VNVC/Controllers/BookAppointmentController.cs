@@ -41,7 +41,9 @@ namespace MDM01_VNVC.Controllers
             var filter2 = Builders<BookAppointment>.Filter.Eq("PhoneNumber", value);
             var dbList1 = collection.Find(filter1).ToList();
             var dbList2 = collection.Find(filter2).ToList();
-            return new JsonResult(dbList2[dbList2.Count()-1]);
+            if (dbList2.Count() == 0) return new JsonResult(0);
+            else
+                return new JsonResult(dbList2[dbList2.Count()-1]);
             
         }
 
