@@ -54,8 +54,8 @@ function Check() {
   names = names.slice(0, -1);
   document.getElementById("txtSelectedID").value = s;
   document.getElementById("txtSelectedName").value = names;
-  console.log("1", names);
-  console.log("2", s);
+  // console.log("1", names);
+  // console.log("2", s);
 }
 
 $(document).ready(function () {
@@ -65,7 +65,7 @@ $(document).ready(function () {
     url: city_api,
     method: "get",
     success: function (response) {
-      console.log(response);
+      // console.log(response);
       cityListApi(response);
     },
     error: function (errors) {
@@ -95,7 +95,7 @@ $(document).ready(function () {
         "https://provinces.open-api.vn/api/p/" +
         $("#selection_city").val() +
         "/?depth=2";
-      console.log("hello", dictrict_api);
+      // console.log("hello", dictrict_api);
       var option0 = document.createElement("option");
       option0.value = "";
       option0.selected = "selected";
@@ -105,7 +105,7 @@ $(document).ready(function () {
         url: dictrict_api,
         method: "get",
         success: function dictrictListApi(response) {
-          console.log(response);
+          // console.log(response);
           response["districts"].forEach((dictrict, index) => {
             var option = document.createElement("option");
             option.value = dictrict.code;
@@ -137,7 +137,7 @@ $(document).ready(function () {
         "https://provinces.open-api.vn/api/d/" +
         $("#selection_dictrict").val() +
         "/?depth=2";
-      console.log("hello", ward_api);
+      // console.log("hello", ward_api);
       var option0 = document.createElement("option");
       option0.value = "";
       option0.selected = "selected";
@@ -146,7 +146,7 @@ $(document).ready(function () {
         url: ward_api,
         method: "get",
         success: function wardListApi(response) {
-          console.log(response);
+          // console.log(response);
           response["wards"].forEach((ward, index) => {
             var option = document.createElement("option");
             option.value = ward.code;
@@ -194,7 +194,7 @@ $(document).ready(function () {
       $("input.check_type.is-checked").removeClass("is-checked");
       $("input.check_type:checked").addClass("is-checked");
       $("div.vaccines").empty();
-      console.log($("input.check_type.is-checked:checked").val());
+      // console.log($("input.check_type.is-checked:checked").val());
       if ($("input.check_type.is-checked:checked").val() == "package") {
         let rowHtml = `
               <spand>***Chọn gói vaccine***</spand>
@@ -214,7 +214,7 @@ $(document).ready(function () {
           url: danhmuc_api,
           method: "get",
           success: function (response) {
-            console.log(response);
+            // console.log(response);
             response.forEach((danhmuc, index) => {
               var option = document.createElement("option");
               option.value = danhmuc["Id"];
@@ -261,7 +261,7 @@ $(document).ready(function () {
           url: vaccines_api,
           method: "get",
           success: function (response) {
-            console.log(response);
+            // console.log(response);
             response.forEach((vaccine, index) => {
               let rowHtml = `
           <tr>
@@ -296,7 +296,7 @@ $(document).on("change", "#selection_vaccinePackage", function () {
   const vaccinePackage_api =
     "https://localhost:5001/VaccinePackage/danhmuc/" +
     $("#selection_vaccinePackage").val();
-  console.log("hello", vaccinePackage_api);
+  // console.log("hello", vaccinePackage_api);
   $("div#Package").empty();
 
   let rowHtml = `
@@ -327,7 +327,7 @@ $(document).on("change", "#selection_vaccinePackage", function () {
     url: vaccinePackage_api,
     method: "get",
     success: function vaccinePackageApi(response) {
-      console.log(response);
+      // console.log(response);
       response.forEach((vaccinePackage, index) => {
         let rowHtml = `
         <tr>
@@ -361,19 +361,18 @@ $(document).on("change", "#selection_vaccinePackage", function () {
 $(document).ready(function () {
   let bookAppointment = function () {
     var today = new Date();
-    console.log(today);
+    // console.log(today);
     if (document.getElementById("name").value == "") {
       window.alert("Vui lòng nhập tên người đăng ký tiêm.");
-    } else if (
-      document.getElementById("birthday").value == "" ||
-      document.getElementById("birthday").value > today
-    ) {
+    } else if (document.getElementById("birthday").value == "") {
       window.alert("Vui lòng nhập ngày sinh người đăng ký tiêm.");
     } else if (
-      $("input.el-radio-button__orig-radio.is-checked").val() == "" ||
-      $("input.el-radio-button__orig-radio").not(":checked")
+      $("input.el-radio-button__orig-radio").not(":checked") &&
+      $("input.el-radio-button__orig-radio.is-checked").val() != "Nam" &&
+      $("input.el-radio-button__orig-radio.is-checked").val() != "Nữ"
     ) {
       window.alert("Vui lòng chọn giới tính người đăng ký tiêm.");
+      //console.log($("input.el-radio-button__orig-radio.is-checked").val());
     } else if ($("#selection_city option:selected").text() == "") {
       window.alert("Vui lòng chọn tỉnh thành.");
     } else if ($("#selection_dictrict option:selected").text() == "") {
@@ -388,11 +387,7 @@ $(document).ready(function () {
       window.alert("Vui lòng chọn vaccine hoặc gói vaccine.");
     } else if ($("#selection_center option:selected").text() == "") {
       window.alert("Vui lòng chọn trung tâm tiêm chủng.");
-    } else if (
-      document.getElementById("bookDate").value.value == "" ||
-      document.getElementById("bookDate").value <
-        new Date().toLocaleDateString()
-    ) {
+    } else if (document.getElementById("bookDate").value.value == "") {
       window.alert("Vui lòng chọn ngày tiêm.");
     } else {
       const bookAppointment_api = "https://localhost:5001/BookAppointment";
@@ -432,7 +427,7 @@ $(document).ready(function () {
         }),
         cache: false,
         success: function () {
-          console.log("Success");
+          window.alert("Success");
         },
       });
     }

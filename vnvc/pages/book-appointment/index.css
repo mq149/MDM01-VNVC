@@ -177,3 +177,14 @@ td:nth-child(2) {
     color: white;
     background-color: #6b93bb;
 }
+
+input[type="submit"]{
+    width: 300px;
+    height: 40px;
+    background-color: #1f28af;
+    color: #f9f9f9;
+}
+
+.footer{
+    margin: 100px;
+}
