@@ -10,7 +10,7 @@ namespace MDM01_VNVC.Models
     
     public class VacinePackage
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         //public string Description { get; set; }
         public string DanhMuc { get; set; }
         public string GoiVaccine { get; set; }

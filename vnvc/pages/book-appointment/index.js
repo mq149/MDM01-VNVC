@@ -3,26 +3,40 @@ function Check() {
     document.getElementById("total").remove();
   var s = "";
   var names = "";
-  let totalPrice = 0,
-    totalCount = 0;
-  var arr = document.getElementsByName("checkVaccine");
-  var name01 = document.getElementsByName("package-name");
-  var name02 = document.getElementsByName("package-type-name");
+  let totalPrice = 0;
   var prices = document.getElementsByName("priceVaccine");
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].checked) {
-      names =
-        names +
-        $("#selection_vaccinePackage option:selected").text() +
-        name01[i] +
-        name02[i] +
-        ",";
-      s = s + arr[i].value + ",";
-      var p = 1 * prices[i].value;
-      totalPrice += p;
+  if ($("input.check_type.is-checked:checked").val() == "package") {
+    var name01 = document.getElementsByName("packageName");
+    var name02 = document.getElementsByName("packageTypeName");
+    var arr = document.getElementsByName("checkVaccine");
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].checked) {
+        s = s + arr[i].value + ",";
+        names =
+          names +
+          $("#selection_vaccinePackage option:selected").text() +
+          " - " +
+          name01[i].value +
+          " - " +
+          name02[i].value +
+          ",";
+        var p = 1 * prices[i].value;
+        totalPrice += p;
+      }
+    }
+  } else if ($("input.check_type.is-checked:checked").val() == "retail") {
+    var name01 = document.getElementsByName("vaccineName");
+    var arr = document.getElementsByName("checkVaccine");
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].checked) {
+        s = s + arr[i].value + ",";
+        names = names + name01[i].value + ",";
+        var p = 1 * prices[i].value;
+        totalPrice += p;
+      }
     }
   }
+
   let rowHtml = `
           <tr id='total'>
             <th scope="row" style="text-align: center;">Total Price</th>
@@ -30,12 +44,18 @@ function Check() {
             <td class="light-blue"></td>
             <td class="light-blue"></td>
             <td class="blue"</td>
-            <td class="blue">${totalPrice.toLocaleString("de-DE")}</td>
+            <td class="blue"><input type="hidden" id="totalPrice" value="${totalPrice}" />${totalPrice.toLocaleString(
+    "de-DE"
+  )}</td>
           </tr>
           `;
   $("table#vaccine-price-list tbody").append(rowHtml);
+  s = s.slice(0, -1);
+  names = names.slice(0, -1);
   document.getElementById("txtSelectedID").value = s;
   document.getElementById("txtSelectedName").value = names;
+  console.log("1", names);
+  console.log("2", s);
 }
 
 $(document).ready(function () {
@@ -151,8 +171,8 @@ $(document).ready(function () {
 $(document).ready(function () {
   $("label.el-radio-button").change(function () {
     if (
-      $("input.el-radio-button__orig-radio:checked").val() == "0" ||
-      $("input.el-radio-button__orig-radio:checked").val() == "1"
+      $("input.el-radio-button__orig-radio:checked").val() == "Nam" ||
+      $("input.el-radio-button__orig-radio:checked").val() == "Nữ"
     ) {
       $("input.el-radio-button__orig-radio.is-checked").prop("checked", false);
       $("input.el-radio-button__orig-radio.is-checked").removeClass(
@@ -232,6 +252,7 @@ $(document).ready(function () {
               </thead>
               <tbody></tbody>
               <input id="txtSelectedID" type="hidden" name="vaccineid" value=""/>
+              <input id="txtSelectedName" type="hidden" name="txtSelectedName" value=""/>
           </table>
           `;
         $("div.vaccines").append(rowHtml);
@@ -248,7 +269,9 @@ $(document).ready(function () {
               vaccine["Id"]
             }' onclick='Check();'/></th>
             <td>${vaccine["ProtectAgainst"]}</td>
-            <td class="light-blue">${vaccine["Name"]}</td>
+            <td class="light-blue"><input type="hidden" name='vaccineName' id='vaccineName' value='${
+              vaccine["Name"]
+            }' />${vaccine["Name"]}</td>
             <td class="light-blue">${vaccine["CountryOfOrigin"]}</td>
             <td class="blue">${vaccine["Status"]}</td>
             <td class="blue"><input type="hidden" name='priceVaccine' id='priceVaccine' value='${
@@ -294,8 +317,8 @@ $(document).on("change", "#selection_vaccinePackage", function () {
       </tr>
   </thead>
   <tbody></tbody>
-  <input id="txtSelectedID" type="hidden" name="vaccineid" value=""/>
-  <input id="txtSelectedName" type="hidden" name="vaccinename" value=""/>
+  <input id="txtSelectedID" type="hidden" name="txtSelectedID" value=""/>
+  <input id="txtSelectedName" type="hidden" name="txtSelectedName" value=""/>
 </table>
 </div>
 `;
@@ -311,12 +334,12 @@ $(document).on("change", "#selection_vaccinePackage", function () {
           <th scope="row"><input style='width:80px' name='checkVaccine' type='checkbox' value='${
             vaccinePackage["Id"]
           }' onclick='Check();'/></th>
-          <td class="light-blue" name="pakage-name">${
+          <td class="light-blue" ><input type="hidden" name='packageName' id='packageName' value='${
             vaccinePackage["GoiVaccine"]
-          }</td>
-          <td class="light-blue" name="package-type-name">${
+          }' /> ${vaccinePackage["GoiVaccine"]}</td>
+          <td class="light-blue" ><input type="hidden" name='packageTypeName' id='packageTypeName' value='${
             vaccinePackage["LoaiGoi"]
-          }</td>
+          }'/> ${vaccinePackage["LoaiGoi"]}</td>
           <td class="" style="text-align: left;">${
             vaccinePackage["Describe"]
           }</td>
@@ -337,44 +360,82 @@ $(document).on("change", "#selection_vaccinePackage", function () {
 
 $(document).ready(function () {
   let bookAppointment = function () {
-    console.log("post");
-    const bookAppointment_api = "https://localhost:5001/BookAppointment";
-    $.ajax({
-      url: bookAppointment_api,
-      type: "POST",
-      dataType: "json",
-      contentType: "application/json",
-      data: JSON.stringify({
-        FullName: "Vo Van A",
-        BirthDate: "1999-03-19",
-        Sex: "Male",
-        CusID: "1",
-        City: "HCM",
-        District: "TD",
-        Ward: "LT",
-        Street: "KVC",
-        NameContact: "Pham Chau",
-        ContactType: "Cha",
-        PhoneNumber: "0337089915",
-        VaccineType: "package",
-        BookAppointmentDetail: [
-          {
-            Id_Item: 1,
-            Name: "Vắc xin cho trẻ em / 0-9 Tháng - GÓI VẮC XIN Infanrix (0-9 tháng) - GÓI LINH ĐỘNG 1",
-          },
-          {
-            Id_Item: 2,
-            Name: "Vắc xin cho trẻ em / 0-9 Tháng - GÓI VẮC XIN Infanrix (0-9 tháng) - GÓI LINH ĐỘNG 2",
-          },
-        ],
-        Center: "HCM",
-        AppointmentDate: "2022-06-30",
-      }),
-      cache: false,
-      success: function () {
-        console.log("Success");
-      },
-    });
+    var today = new Date();
+    console.log(today);
+    if (document.getElementById("name").value == "") {
+      window.alert("Vui lòng nhập tên người đăng ký tiêm.");
+    } else if (
+      document.getElementById("birthday").value == "" ||
+      document.getElementById("birthday").value > today
+    ) {
+      window.alert("Vui lòng nhập ngày sinh người đăng ký tiêm.");
+    } else if (
+      $("input.el-radio-button__orig-radio.is-checked").val() == "" ||
+      $("input.el-radio-button__orig-radio").not(":checked")
+    ) {
+      window.alert("Vui lòng chọn giới tính người đăng ký tiêm.");
+    } else if ($("#selection_city option:selected").text() == "") {
+      window.alert("Vui lòng chọn tỉnh thành.");
+    } else if ($("#selection_dictrict option:selected").text() == "") {
+      window.alert("Vui lòng nhập chọn quận huyện.");
+    } else if ($("#selection_ward option:selected").text() == "") {
+      window.alert("Vui lòng chọn phường xã.");
+    } else if (document.getElementById("contactname").value == "") {
+      window.alert("Vui lòng nhập tên người liên hệ.");
+    } else if (document.getElementById("phone").value == "") {
+      window.alert("Vui lòng cung cấp số điện thoại liên hệ.");
+    } else if (document.getElementById("totalPrice").value == "") {
+      window.alert("Vui lòng chọn vaccine hoặc gói vaccine.");
+    } else if ($("#selection_center option:selected").text() == "") {
+      window.alert("Vui lòng chọn trung tâm tiêm chủng.");
+    } else if (
+      document.getElementById("bookDate").value.value == "" ||
+      document.getElementById("bookDate").value <
+        new Date().toLocaleDateString()
+    ) {
+      window.alert("Vui lòng chọn ngày tiêm.");
+    } else {
+      const bookAppointment_api = "https://localhost:5001/BookAppointment";
+      var arr1 = $("#txtSelectedID").val().split(",");
+      var arr2 = $("#txtSelectedName").val().split(",");
+      console.log("post", arr1, arr2);
+      var arr = "[";
+      for (var i = 0; i < arr1.length; i++) {
+        var a = "{'Id_Item':'" + arr1[i] + "','Name':'" + arr2[i] + "'},";
+        console.log("*", a, "*", arr1.length);
+        arr += a;
+      }
+      arr += "]";
+      arr = eval(arr);
+      $.ajax({
+        url: bookAppointment_api,
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+          FullName: document.getElementById("name").value,
+          BirthDate: document.getElementById("birthday").value,
+          Sex: $("input.el-radio-button__orig-radio.is-checked").val(),
+          CusID: document.getElementById("customerid").value,
+          City: $("#selection_city option:selected").text(),
+          District: $("#selection_dictrict option:selected").text(),
+          Ward: $("#selection_ward option:selected").text(),
+          Street: document.getElementById("street").value,
+          NameContact: document.getElementById("contactname").value,
+          ContactType: $("#contactType option:selected").text(),
+          PhoneNumber: document.getElementById("phone").value,
+          VaccineType: $("input.check_type.is-checked:checked").val(),
+          BookAppointmentDetail: arr,
+          Center: $("#selection_center option:selected").text(),
+          AppointmentDate: document.getElementById("bookDate").value,
+          TotalPrice: document.getElementById("totalPrice").value,
+        }),
+        cache: false,
+        success: function () {
+          console.log("Success");
+        },
+      });
+    }
   };
   $("#button_reg_ba").click(bookAppointment);
 });
