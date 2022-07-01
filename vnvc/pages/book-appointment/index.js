@@ -1,3 +1,4 @@
+//Lấy các lựa chọn của khách hàng
 function Check() {
   if (document.getElementById("total") != null)
     document.getElementById("total").remove();
@@ -58,6 +59,7 @@ function Check() {
   // console.log("2", s);
 }
 
+//Hiển thị danh sách tỉnh thành
 $(document).ready(function () {
   var x = document.getElementById("selection_city");
   const city_api = "https://provinces.open-api.vn/api/";
@@ -86,6 +88,7 @@ $(document).ready(function () {
   }
 });
 
+//Hiển thị danh sách quận huyện
 $(document).ready(function () {
   let dictrictList = function () {
     var x = document.getElementById("selection_dictrict");
@@ -128,6 +131,7 @@ $(document).ready(function () {
   $("#selection_city").change(dictrictList);
 });
 
+//Hiển thị danh sách xã phường
 $(document).ready(function () {
   let wardList = function () {
     var x = document.getElementById("selection_ward");
@@ -168,6 +172,7 @@ $(document).ready(function () {
   $("#selection_city").change(wardList);
 });
 
+//Check lựa chọn giới tính
 $(document).ready(function () {
   $("label.el-radio-button").change(function () {
     if (
@@ -184,6 +189,7 @@ $(document).ready(function () {
   });
 });
 
+//Check khách hàng lựa chon vaccine theo gói hay riêng lẻ
 $(document).ready(function () {
   $("input.check_type").click(function () {
     if (
@@ -292,6 +298,7 @@ $(document).ready(function () {
   });
 });
 
+//Hiển thị các gói vaccine
 $(document).on("change", "#selection_vaccinePackage", function () {
   const vaccinePackage_api =
     "https://localhost:5001/VaccinePackage/danhmuc/" +
@@ -358,6 +365,7 @@ $(document).on("change", "#selection_vaccinePackage", function () {
   });
 });
 
+//Đăng kí tiêm chủng
 $(document).ready(function () {
   let bookAppointment = function () {
     var today = new Date();

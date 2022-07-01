@@ -1,3 +1,4 @@
+//Lấy danh sách danh mục vaccine
 $(document).ready(function () {
   let rowHtml = `
               <spand>***Chọn gói vaccine***</spand>
@@ -26,6 +27,7 @@ $(document).ready(function () {
   });
 });
 
+//Lấy các gói vaccine theo danh mục
 $(document).on("change", "#selection_vaccinePackage", function () {
   const vaccinePackage_api =
     "https://localhost:5001/VaccinePackage/danhmuc/" +
