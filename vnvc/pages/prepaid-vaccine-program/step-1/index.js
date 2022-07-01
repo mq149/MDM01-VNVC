@@ -196,7 +196,6 @@ function validateForm(selectedVaccines) {
     ];
 
     let formData = {};
-    console.log($(`input[name=gender]:checked`).length);
     if ($(`input[name=gender]:checked`).length == 0) {
         return false;
     }
@@ -265,8 +264,6 @@ function getVaccineDict(response) {
 
 // MAIN FUNCTION
 $(function () {
-    console.log("hello world");
-
     // PROVINCE APIs
     const PROVINCE_API = "https://provinces.open-api.vn/api/";
     const DISTRICT_API = function (provinceCode) {
@@ -277,9 +274,11 @@ $(function () {
     };
     const VACCINE_API = "https://localhost:5001/vaccinepricelist";
 
+    const MAX_CUSTOMER = 5;
+
     let vaccines = {};
     // User data
-    let currentCustomerIndex = 0;
+    var currentCustomerIndex = 0;
     let customers = {
         0: {},
         1: {},
@@ -302,7 +301,6 @@ $(function () {
                 url: PROVINCE_API,
                 method: "get",
                 success: function (response) {
-                    console.log(response);
                     displayProvinces(response);
                 },
                 error: function (errors) {
@@ -313,7 +311,6 @@ $(function () {
     });
 
     $("body").on("change", "select#province", function (e) {
-        console.log($(this).find("option:selected"));
         let provinceCode = $(this).find("option:selected").first().val();
         if (provinceCode == "") return;
         resetDistricts();
@@ -322,7 +319,6 @@ $(function () {
                 url: DISTRICT_API(provinceCode),
                 method: "get",
                 success: function (response) {
-                    console.log(response);
                     displayDistricts(response);
                 },
                 error: function (errors) {
@@ -333,7 +329,6 @@ $(function () {
     });
 
     $("body").on("change", "select#district", function (e) {
-        console.log($(this).find("option:selected"));
         let districtCode = $(this).find("option:selected").first().val();
         if (districtCode == "") return;
         resetWards();
@@ -342,7 +337,6 @@ $(function () {
                 url: WARD_API(districtCode),
                 method: "get",
                 success: function (response) {
-                    console.log(response);
                     displayWards(response);
                 },
                 error: function (errors) {
@@ -352,23 +346,12 @@ $(function () {
         }
     });
 
-    // TEST
-    $("body").on("click", "button#test", function (e) {
-        let formData = validateForm(selectedVaccines[currentCustomerIndex]);
-        if (formData == false) {
-            alert("Vui lòng điền đầy đủ thông tin");
-        }
-        console.log(formData);
-    });
-
     $("body").on("click", "select#vaccines-vaccine-packs", function (e) {
         if ($("select#vaccines-vaccine-packs option").length < 2) {
             $.ajax({
                 url: VACCINE_API,
                 method: "get",
                 success: function (response) {
-                    console.log(response);
-                    // displayVaccines(response);
                     vaccines = getVaccineDict(response);
                     displayVaccines(
                         vaccines,
@@ -392,6 +375,7 @@ $(function () {
             ...selectedVaccines[currentCustomerIndex],
             vaccines[selectedVaccineId],
         ];
+        console.log(selectedVaccines[currentCustomerIndex]);
         displaySelectedVaccines(selectedVaccines[currentCustomerIndex]);
         displayVaccines(vaccines, selectedVaccines[currentCustomerIndex]);
     });
@@ -412,22 +396,63 @@ $(function () {
     });
 
     $("body").on("click", "button#add-customer", function (e) {
-        saveCurrentCustomerData();
-        displayCustomers(customers);
+        if (currentCustomerIndex < MAX_CUSTOMER) {
+            saveCurrentCustomerData();
+            displayCustomers(customers);
+            currentCustomerIndex += 1;
+            displaySelectedVaccines(selectedVaccines[currentCustomerIndex]);
+            displayVaccines(vaccines, selectedVaccines[currentCustomerIndex]);
+        } else {
+            alert(
+                `Quý khách chỉ được đăng ký cho tối đa ${MAX_CUSTOMER} người.`
+            );
+        }
+    });
+
+    $("body").on("click", "button#reset-form", function (e) {
+        $("form").get(0).reset();
+        selectedVaccines[currentCustomerIndex] = [];
+        displaySelectedVaccines(selectedVaccines[currentCustomerIndex]);
+        displayVaccines(vaccines, selectedVaccines[currentCustomerIndex]);
+    });
+
+    // $("body").on("click", "button.remove-customer", function (e) {
+    //     let id = $(this).parents(".customer-item").first().attr("id");
+    //     console.log(id);
+    // });
+
+    // $("body").on("click", "button.edit-customer", function (e) {
+    //     let id = $(this).parents(".customer-item").first().attr("id");
+    //     console.log(id);
+    //     console.log(customers[id]);
+    // });
+
+    $("body").on("click", "button#next-step", function (e) {
+        if (Object.keys(customers[0]).length == 0) {
+            return alert("Vui lòng nhập thông tin người tiêm.");
+        }
+        let customerArray = Object.keys(customers)
+            .filter((key) => Object.keys(customers[key]).length > 0)
+            .map((key) => {
+                return customers[key];
+            });
+        console.log(customerArray);
     });
 
     // Data functions
     function saveCurrentCustomerData() {
-        let _currentCustomerIndex = $("input#currentCustomerIndex").val() || "";
-        if (_currentCustomerIndex == "") {
-            return alert("Đã có lỗi xảy ra.");
-        }
-        currentCustomerIndex = _currentCustomerIndex;
+        // let _currentCustomerIndex = $("input#currentCustomerIndex").val() || "";
+        // if (_currentCustomerIndex == "") {
+        //     return alert("Đã có lỗi xảy ra.");
+        // }
+        // currentCustomerIndex = _currentCustomerIndex;
+        $("input#currentCustomerIndex").val(currentCustomerIndex);
         let formData = validateForm(selectedVaccines[currentCustomerIndex]);
         if (formData == false) {
             return alert("Vui lòng điền đầy đủ thông tin.");
         }
         console.log(formData);
         customers[currentCustomerIndex] = formData;
+        $("form").get(0).reset();
     }
 });

@@ -267,11 +267,14 @@
                 <div class="dropdown-divider"></div>
                 <h3>DANH SÁCH VẮC XIN ĐĂNG KÝ</h3>
                 <div class="selected-vaccine-list row"></div>
-                <button type="button" class="btn btn-primary next" id="test">
-                    TIẾP TỤC
-                </button>
                 <button type="button" class="btn btn-primary" id="add-customer">
                     THÊM NGƯỜI TIÊM
+                </button>
+                <button type="button" class="btn btn-danger" id="reset-form">
+                    NHẬP LẠI
+                </button>
+                <button type="button" class="btn btn-success" id="next-step">
+                    TIẾP TỤC ĐẾN BƯỚC THANH TOÁN
                 </button>
             </div>
             <div class="col-4">
@@ -298,6 +301,11 @@
                                         <p class="info">Trung tâm:</p>
                                     </div>
                                     <div class="actions col-auto">
+                                        <button
+                                            class="btn btn-info edit-customer"
+                                        >
+                                            Sửa
+                                        </button>
                                         <button
                                             class="btn btn-danger remove-customer"
                                         >
@@ -360,6 +368,9 @@
                             <p class="vnvc-center-info">Trung tâm:</p>
                         </div>
                         <div class="actions col-auto">
+                            <button class="btn btn-info edit-customer">
+                                Sửa
+                            </button>
                             <button class="btn btn-danger remove-customer">
                                 Xoá
                             </button>
