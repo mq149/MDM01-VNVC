@@ -62,7 +62,6 @@ namespace MDM01_VNVC.Controllers
                 {
                     VacinePackage packagevaccine = new VacinePackage();
                     List<VacinePackageDescribe> vacinepackagedescribes = new List<VacinePackageDescribe>();
-
                     var statement1 = "match (d:DanhMuc)<-[:Thuoc]-(g:GoiVC)-[:Co]->(l:LoaiGoiVC {Id:'"+i+"'})-[r:Gom]->(vc:Vaccine) return vc,r.soLuong as soluong, d.tenDM as tendm,g.tenGoiVC as tengoi ,l.tenLoai as loaigoi";
                     var result1 = session.Run(statement1);
                     Console.WriteLine(statement1);

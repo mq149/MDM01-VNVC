@@ -1,190 +1,202 @@
 .el-form-item__content {
-    line-height: 40px;
-    position: relative;
-    font-size: 14px;
+  line-height: 40px;
+  position: relative;
+  font-size: 14px;
 }
 div {
-    display: block;
+  display: block;
 }
-.ep-wrapper, .ep-wrapper button, .ep-wrapper input {
-    font-family: -apple-system,BlinkMacSystemFont,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+.ep-wrapper,
+.ep-wrapper button,
+.ep-wrapper input {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu,
+    Cantarell, Open Sans, Helvetica Neue, sans-serif;
 }
 .ep-wrapper {
-    font-size: 15px;
+  font-size: 15px;
 }
-.div_detail_post, .question-item, .gt-info {
-    font-family: Arial, Helvetica, sans-serif;
+.div_detail_post,
+.question-item,
+.gt-info {
+  font-family: Arial, Helvetica, sans-serif;
 }
 body {
-    font-size: 16px;
-    font-family: "MyriadPro-Regular";
-    color: #6D6E70;
+  font-size: 16px;
+  font-family: "MyriadPro-Regular";
+  color: #6d6e70;
 }
-.el-form-item__content:after, .el-form-item__content:before {
-    display: table;
-    content: "";
+.el-form-item__content:after,
+.el-form-item__content:before {
+  display: table;
+  content: "";
 }
 .el-form-item__content:after {
-    clear: both;
+  clear: both;
 }
-.el-form-item__content:after, .el-form-item__content:before {
-    display: table;
-    content: "";
+.el-form-item__content:after,
+.el-form-item__content:before {
+  display: table;
+  content: "";
 }
-.ep-full.el-checkbox-group, .ep-full.el-radio-group {
-    display: flex;
+.ep-full.el-checkbox-group,
+.ep-full.el-radio-group {
+  display: flex;
 }
 .ep-full {
-    width: 100%!important;
-    display: block;
+  width: 100% !important;
+  display: block;
 }
 .el-radio-group {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    font-size: 0;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 0;
 }
 
-.ep-full.el-checkbox-group>*, .ep-full.el-radio-group>* {
-    flex: 1;
+.ep-full.el-checkbox-group > *,
+.ep-full.el-radio-group > * {
+  flex: 1;
 }
 
-.el-radio-button, .el-radio-button__inner {
-    position: relative;
-    display: inline-block;
-    outline: none;
+.el-radio-button,
+.el-radio-button__inner {
+  position: relative;
+  display: inline-block;
+  outline: none;
 }
 label {
-    cursor: default;
+  cursor: default;
 }
 .el-radio-group {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    font-size: 0;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 0;
 }
 .el-form-item__content {
-    line-height: 40px;
-    position: relative;
-    font-size: 14px;
+  line-height: 40px;
+  position: relative;
+  font-size: 14px;
 }
-.ep-full.el-checkbox-group>*>*, .ep-full.el-radio-group>*>* {
-    width: 100%;
+.ep-full.el-checkbox-group > * > *,
+.ep-full.el-radio-group > * > * {
+  width: 100%;
 }
 .el-radio-button__orig-radio {
-    opacity: 0;
-    outline: none;
-    position: absolute;
-    z-index: -1;
+  opacity: 0;
+  outline: none;
+  position: absolute;
+  z-index: -1;
 }
 input[type="radio" i] {
-    background-color: initial;
-    cursor: default;
-    appearance: auto;
-    box-sizing: border-box;
-    margin: 3px 3px 0px 5px;
-    padding: initial;
-    border: initial;
+  background-color: initial;
+  cursor: default;
+  appearance: auto;
+  box-sizing: border-box;
+  margin: 3px 3px 0px 5px;
+  padding: initial;
+  border: initial;
 }
 
 .el-radio-group {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    font-size: 0;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 0;
 }
-.el-radio-button__orig-radio:checked+.el-radio-button__inner {
-    color: #fff;
-    background-color: #1f28af;
-    border-color: #1f28af;
-    box-shadow: -1px 0 0 0 #1f28af;
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  color: #fff;
+  background-color: #1f28af;
+  border-color: #1f28af;
+  box-shadow: -1px 0 0 0 #1f28af;
 }
 .el-radio-button:first-child .el-radio-button__inner {
-    border-left: 1px solid #dcdfe6;
-    border-radius: 4px 0 0 4px;
-    box-shadow: none!important;
+  border-left: 1px solid #dcdfe6;
+  border-radius: 4px 0 0 4px;
+  box-shadow: none !important;
 }
 .el-radio-button__inner {
-    line-height: 1;
-    white-space: nowrap;
-    vertical-align: middle;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    font-weight: 500;
-    border-left: 0;
-    color: #000;
-    -webkit-appearance: none;
-    text-align: center;
-    box-sizing: border-box;
-    margin: 0;
-    cursor: pointer;
-    transition: all .3s cubic-bezier(.645,.045,.355,1);
-    padding: 12px 20px;
-    font-size: 14px;
-    border-radius: 0;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  font-weight: 500;
+  border-left: 0;
+  color: #000;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 0;
 }
-.el-radio-button, .el-radio-button__inner {
-    position: relative;
-    display: inline-block;
-    outline: none;
+.el-radio-button,
+.el-radio-button__inner {
+  position: relative;
+  display: inline-block;
+  outline: none;
 }
 
-select{
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
+select {
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
 }
 
 table#vaccine-price-list {
-    width: 100%;
-    align-self: center;
-    font-size: 14px;
-    color: #878889;
+  width: 100%;
+  align-self: center;
+  font-size: 14px;
+  color: #878889;
 }
 
 table,
 th,
 td {
-    border: 1px solid #0d66a3;
+  border: 1px solid #0d66a3;
 }
 
 thead tr th {
-    background-color: #f9f9f9;
-    text-align: center;
+  background-color: #f9f9f9;
+  text-align: center;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 tr th {
-    text-align: center;
+  text-align: center;
 }
 
 tr td {
-    text-align: center;
+  text-align: center;
 }
 
 td:nth-child(2) {
-    text-align: left;
+  text-align: left;
 }
 
 .light-blue {
-    color: #0d66a3;
-    background-color: #c9e5f7;
+  color: #0d66a3;
+  background-color: #c9e5f7;
 }
 
 .blue {
-    color: white;
-    background-color: #6b93bb;
+  color: white;
+  background-color: #6b93bb;
 }
 
-input[type="submit"]{
-    width: 300px;
-    height: 40px;
-    background-color: #1f28af;
-    color: #f9f9f9;
+input[type="submit"] {
+  width: 300px;
+  height: 40px;
+  background-color: #1f28af;
+  color: #f9f9f9;
 }
 
-.footer{
-    margin: 100px;
+.footer {
+  margin: 100px;
 }

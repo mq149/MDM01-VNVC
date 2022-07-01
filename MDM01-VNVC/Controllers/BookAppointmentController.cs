@@ -19,16 +19,17 @@ namespace MDM01_VNVC.Controllers
     {
         private readonly IOptions<DocumentDatabaseSettings> settings;
         private readonly MongoClient dbClient;
+        private readonly IMongoCollection<BookAppointment> collection;
         public BookAppointmentController(IOptions<DocumentDatabaseSettings> settings)
         {
             this.settings = settings;
             dbClient = new MongoClient(settings.Value.ConnectionString);
+            collection=dbClient.GetDatabase(settings.Value.DatabaseName).GetCollection<BookAppointment>(settings.Value.BookAppointmentsCollectionName);
         }  
         
         [HttpGet]
         public JsonResult GetAll()
         {
-            var collection = dbClient.GetDatabase(settings.Value.DatabaseName).GetCollection<BookAppointment>(settings.Value.BookAppointmentsCollectionName);
             var dbList = collection.AsQueryable().ToList();
             return new JsonResult(dbList);
         }
@@ -36,7 +37,6 @@ namespace MDM01_VNVC.Controllers
         [HttpGet("{value}")]
         public JsonResult Find(string value)
         {
-            var collection = dbClient.GetDatabase(settings.Value.DatabaseName).GetCollection<BookAppointment>(settings.Value.BookAppointmentsCollectionName);
             var filter1 = Builders<BookAppointment>.Filter.Eq("FullName",value);
             var filter2 = Builders<BookAppointment>.Filter.Eq("PhoneNumber", value);
             var dbList1 = collection.Find(filter1).ToList();
@@ -50,7 +50,6 @@ namespace MDM01_VNVC.Controllers
         [HttpPost]
         public JsonResult NewAppoint(BookAppointment book)
         {
-            var collection = dbClient.GetDatabase(settings.Value.DatabaseName).GetCollection<BookAppointment>(settings.Value.BookAppointmentsCollectionName);
             book.Id= collection.AsQueryable().Count()+1;
             try
             {
