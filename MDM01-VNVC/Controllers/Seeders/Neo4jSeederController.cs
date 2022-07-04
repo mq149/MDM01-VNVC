@@ -10,14 +10,14 @@ using Neo4j.Driver;
 namespace MDM01_VNVC.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class SeederController
+    [Route("seeder/neo4j/")]
+    public class Neo4jSeederController
     {
         private readonly IOptions<GraphDatabaseSettings> graphDbSettings;
         private readonly IDriver _neo4jDriver;
         private Action<SessionConfigBuilder> neo4jSessionConfig;
 
-        public SeederController(IOptions<GraphDatabaseSettings> graphDbSettings)
+        public Neo4jSeederController(IOptions<GraphDatabaseSettings> graphDbSettings)
         {
             // Setup Neo4j driver
             this.graphDbSettings = graphDbSettings;
@@ -28,7 +28,7 @@ namespace MDM01_VNVC.Controllers
             // Set up ... driver
         }
 
-        [HttpGet("neo4j/vaccines")]
+        [HttpGet("vaccines")]
         public string SeedNeo4jVaccines()
         {
             List<string[]> vaccines = new List<string[]>(){
