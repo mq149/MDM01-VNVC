@@ -1,0 +1,15 @@
+p.info {
+    font-size: 13px;
+    margin: 0px;
+    vertical-align: middle;
+}
+
+label {
+    margin: 5px 0px;
+    font-weight: 500;
+}
+
+.registration-info-container {
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}

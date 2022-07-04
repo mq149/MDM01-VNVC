@@ -12,8 +12,10 @@ namespace MDM01_VNVC.Models.MongoDB
         public string CustomerCode { get; set; } = GetCustomerCode();
         [BsonElement("fullName")]
         public string FullName { get; set; }
+        [BsonElement("socialId")]
+        public string SocialId { get; set; } = "";
         [BsonElement("gender")]
-        public string Gender { get; set; }
+        public string Gender { get; set; } = "";
         [BsonElement("dateOfBirth")]
         public DateTime DateOfBirth { get; set; }
         [BsonElement("phoneNumber")]
@@ -32,7 +34,8 @@ namespace MDM01_VNVC.Models.MongoDB
             Id = document.GetValue("_id").ToString();
             CustomerCode = document.GetValue("customerCode").ToString();
             FullName = document.GetValue("fullName").ToString();
-            Gender = document.GetValue("gender").ToString();
+            Gender = document.ContainsValue("gender") ? document.GetValue("gender").ToString() : null;
+            SocialId = document.ContainsValue("socialId") ? document.GetValue("socialId").ToString() : null;
             DateOfBirth = document.GetValue("dateOfBirth").ToLocalTime();
             PhoneNumber = document.GetValue("phoneNumber").ToString();
             Email = document.GetValue("email").ToString();

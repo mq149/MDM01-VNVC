@@ -123,10 +123,6 @@ function displayVaccines(vaccines, selectedVaccines) {
         if (selectedVaccines.includes(vaccine)) continue;
         vaccineOptions += `<option value="${vaccine.id}" price="${vaccine.retailPrice}">Vắc xin phòng ${vaccine.protectAgainst}: ${vaccine.name}</option>`;
     }
-    // Object.entries(vaccines).forEach(function (key, vaccine) {
-    //     if (selectedVaccines.includes(vaccine)) return;
-    //     vaccineOptions += `<option value="${vaccine.id}" price="${vaccine.retailPrice}">Vắc xin phòng ${vaccine.protectAgainst}: ${vaccine.name}</option>`;
-    // });
     $vaccinesVaccinePacksSelect.append(vaccineOptions);
 }
 
@@ -138,16 +134,20 @@ function displaySelectedVaccines(selectedVaccines) {
         ).clone();
         $template.attr("id", vaccine.id);
         $template.find(".vaccine-name").first().text(vaccine.name);
-        $template.find(".vaccine-price").first().text(vaccine.retailPrice);
+        $template
+            .find(".vaccine-price")
+            .first()
+            .text(parseFloat(vaccine.retailPrice).toLocaleString("de-DE"));
         $template
             .find(".vaccine-protect-against")
             .first()
-            .text(vaccine.protectAgainst);
+            .text(`Phòng bệnh: ${vaccine.protectAgainst}`);
         $(".selected-vaccine-list").append($template);
     });
 }
 
 function displayCustomers(customers) {
+    if (customers == null) return alert("Đã có lỗi xảy ra, vui lòng thử lại");
     $(".customer-list").html("");
     var total = 0;
     for (const [index, customer] of Object.entries(customers)) {
@@ -172,10 +172,15 @@ function displayCustomers(customers) {
             ?.map((vaccine) => vaccine.retailPrice)
             .reduce((s, a) => s + a, 0);
         total += subtotal;
-        $template.find("label.subtotal-price").first().text(`${subtotal} VNĐ`);
+        $template
+            .find("label.subtotal-price")
+            .first()
+            .text(`${parseFloat(subtotal).toLocaleString("de-DE")} VNĐ`);
         $(".customer-list").append($template);
     }
-    $("label#total-price").html(`${total} VNĐ`);
+    $("label#total-price").html(
+        `${parseFloat(total).toLocaleString("de-DE")} VNĐ`
+    );
 }
 
 function validateForm(selectedVaccines) {
@@ -252,11 +257,11 @@ function validateForm(selectedVaccines) {
 function getVaccineDict(response) {
     let vaccineById = {};
     response.forEach(function (vaccine, index) {
-        vaccineById[vaccine.id] = new Vaccine(
-            vaccine.id,
-            vaccine.name,
-            vaccine.retailPrice,
-            vaccine.protectAgainst
+        vaccineById[vaccine.Id] = new Vaccine(
+            vaccine.Id,
+            vaccine.Name,
+            vaccine.RetailPrice,
+            vaccine.ProtectAgainst
         );
     });
     return vaccineById;
@@ -264,6 +269,11 @@ function getVaccineDict(response) {
 
 // MAIN FUNCTION
 $(function () {
+    const VNVC_CUSTOMERS_LOCAL_STORAGE_KEY = "vnvc:customers";
+    const VNVC_REGISTRATION_LOCAL_STORAGE_KEY = "vnvc:registrationId";
+    localStorage.removeItem(VNVC_CUSTOMERS_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(VNVC_REGISTRATION_LOCAL_STORAGE_KEY);
+
     // PROVINCE APIs
     const PROVINCE_API = "https://provinces.open-api.vn/api/";
     const DISTRICT_API = function (provinceCode) {
@@ -272,6 +282,8 @@ $(function () {
     const WARD_API = function (districtCode) {
         return `https://provinces.open-api.vn/api/d/${districtCode}/?depth=2`;
     };
+
+    // VACCINE APIS and constants
     const VACCINE_API = "https://localhost:5001/vaccinepricelist";
 
     const MAX_CUSTOMER = 5;
@@ -375,7 +387,6 @@ $(function () {
             ...selectedVaccines[currentCustomerIndex],
             vaccines[selectedVaccineId],
         ];
-        console.log(selectedVaccines[currentCustomerIndex]);
         displaySelectedVaccines(selectedVaccines[currentCustomerIndex]);
         displayVaccines(vaccines, selectedVaccines[currentCustomerIndex]);
     });
@@ -436,7 +447,20 @@ $(function () {
             .map((key) => {
                 return customers[key];
             });
-        console.log(customerArray);
+        $(".term-condition-container").show();
+        localStorage.setItem(
+            VNVC_CUSTOMERS_LOCAL_STORAGE_KEY,
+            JSON.stringify(customerArray)
+        );
+    });
+
+    $("body").on("click", "button#tc-back", function (e) {
+        $(".term-condition-container").hide();
+        localStorage.removeItem(VNVC_CUSTOMERS_LOCAL_STORAGE_KEY);
+    });
+
+    $("body").on("click", "button#tc-next", function (e) {
+        window.location.href = "../step-2/index.html";
     });
 
     // Data functions
