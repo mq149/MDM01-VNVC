@@ -6,6 +6,7 @@ using MDM01_VNVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace MDM01_VNVC.Controllers
 {
@@ -47,5 +48,6 @@ namespace MDM01_VNVC.Controllers
         {
             return settings.Value.ConnectionString;
         }
+
     }
 }
