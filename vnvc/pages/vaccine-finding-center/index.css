@@ -1,0 +1,48 @@
+.table-container {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+table#vaccine-price-list {
+    width: 70%;
+    align-self: center;
+    font-size: 14px;
+    color: #878889;
+}
+
+table,
+th,
+td {
+    border: 1px solid #0d66a3;
+}
+
+thead tr th {
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr th,
+tr td {
+    text-align: center;
+}
+
+td:nth-child(2) {
+    text-align: left;
+}
+
+.light-blue {
+    color: #0d66a3;
+    background-color: #c9e5f7;
+}
+
+.blue {
+    color: white;
+    background-color: #6b93bb;
+}
