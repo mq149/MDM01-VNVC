@@ -19,7 +19,4 @@
     <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
     <PackageReference Include="Neo4j.Driver.Simple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
 </Project>
