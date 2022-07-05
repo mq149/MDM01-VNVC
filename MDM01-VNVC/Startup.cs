@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
 using StackExchange.Redis;
 
@@ -50,6 +51,8 @@ namespace MDM01_VNVC
             services.Configure<KeyValueDatabaseSettings>(Configuration.GetSection("KeyValueDatabase"));
             services.Configure<GraphDatabaseSettings>(Configuration.GetSection("GraphDatabase"));
             services.AddSingleton<IConfiguration>(Configuration);
+            //var redis = ConnectionMultiplexer.Connect("localhost");
+            //services.AddScoped(s => redis.GetDatabase());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
