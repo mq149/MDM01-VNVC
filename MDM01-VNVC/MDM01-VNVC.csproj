@@ -13,10 +13,22 @@
     <None Remove="ServiceStack.Redis" />
     <None Remove="Neo4j.Driver" />
     <None Remove="Neo4j.Driver.Simple" />
+    <None Remove="Models\MongoDB\" />
+    <None Remove="Controllers\Seeders\" />
+    <None Remove="Models\VaccineRegistrationRequest\" />
+    <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.26" />
+    <PackageReference Include="MongoDB.Bson" Version="2.16.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.16.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
     <PackageReference Include="Neo4j.Driver.Simple" Version="4.4.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Models\MongoDB\" />
+    <Folder Include="Controllers\Seeders\" />
+    <Folder Include="Models\VaccineRegistrationRequest\" />
   </ItemGroup>
 </Project>

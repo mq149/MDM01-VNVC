@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using Newtonsoft.Json.Serialization;
 using StackExchange.Redis;
 
 namespace MDM01_VNVC
@@ -32,11 +33,20 @@ namespace MDM01_VNVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+               .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+               = new DefaultContractResolver());
+
             services.AddCors(c => {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-            services.AddControllers();
-
+            services.AddControllers().AddNewtonsoftJson();
             services.Configure<DocumentDatabaseSettings>(Configuration.GetSection("DocumentDatabase"));
             services.Configure<KeyValueDatabaseSettings>(Configuration.GetSection("KeyValueDatabase"));
             services.Configure<GraphDatabaseSettings>(Configuration.GetSection("GraphDatabase"));
@@ -53,6 +63,7 @@ namespace MDM01_VNVC
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using MongoDB.Bson;
 using Neo4j.Driver;
 
 namespace MDM01_VNVC.Models
@@ -37,6 +38,15 @@ namespace MDM01_VNVC.Models
             RetailPrice = node["RetailPrice"].As<double>();
             PreOrderPrice = node["PreOrderPrice"].As<double>();
             Status = node["Status"].As<string>();
+        }
+
+        public BsonDocument ShortenedBsonDocument() {
+            return new BsonDocument()
+            {
+                { "id", Id },
+                { "name", Name },
+                { "price", RetailPrice }
+            };
         }
     }
 }

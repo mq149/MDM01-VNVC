@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../../../common/app.css" />
+        <link rel="stylesheet" href="./index.css" />
+        <title>VNVC - Prepaid vaccine program</title>
+    </head>
+    <body>
+        <div id="app" class="container row p-4">
+            <div class="col-8">
+                <h1>ĐẶT MUA VẮC XIN - BƯỚC 2</h1>
+                <h3>THÔNG TIN NGƯỜI MUA</h3>
+                <p class="info">
+                    Thông tin này để chúng tôi liên lạc khi cần thiết. Quý khách
+                    có thể đăng ký vắc xin cho 5 người cùng lúc, tất cả thông
+                    tin quý khách cần cung cấp chính xác để chúng tôi xác thực
+                    khi đến trung tâm
+                </p>
+                <div class="divider"></div>
+                <form>
+                    <!-- Full name, phone number -->
+                    <div class="row d-flex">
+                        <div
+                            class="form-group col d-flex flex-column justify-content-between"
+                        >
+                            <label for="fullName">Họ và tên</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="fullName"
+                                placeholder="Họ và tên"
+                            />
+                        </div>
+                        <div class="form-group col">
+                            <label for="phoneNumber">Số điện thoại</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="phoneNumber"
+                                placeholder="Số điện thoại"
+                            />
+                        </div>
+                    </div>
+                    <!-- Email, social id -->
+                    <div class="row d-flex">
+                        <div
+                            class="form-group col d-flex flex-column justify-content-between"
+                        >
+                            <label for="email">Email</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="email"
+                                placeholder="Email"
+                            />
+                        </div>
+                        <div class="form-group col">
+                            <label for="socialId">CMND/CCCD/PASSPORT</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="socialId"
+                                placeholder="CMND/CCCD/PASSPORT"
+                            />
+                        </div>
+                    </div>
+                    <!-- Address line, address -->
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label for="addressLine">Địa chỉ</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="addressLine"
+                            placeholder="Số nhà, tên đường (Theo hộ khẩu/CMND)"
+                        />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="province">Tỉnh/Thành</label>
+                            <select id="province" class="form-control">
+                                <option value="" selected>Tính/Thành</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="district">Quận/Huyện</label>
+                            <select id="district" class="form-control">
+                                <option value="" selected>Quận/Huyện</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ward">Phường/Xã</label>
+                            <select id="ward" class="form-control">
+                                <option value="" selected>Phường/Xã</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <h3>CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
+                    <br />
+                    <div class="form-group">
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentMethodRadio1"
+                                    value="Thanh toán bằng thẻ thanh toán nội địa (ATM)"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="paymentMethodRadio1"
+                                    >Thanh toán bằng thẻ thanh toán nội địa
+                                    (ATM)</label
+                                >
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentMethodRadio2"
+                                    value="Thanh toán bằng thẻ VISA/MASTER/JCB"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="paymentMethodRadio2"
+                                    >Thanh toán bằng thẻ VISA/MASTER/JCB</label
+                                >
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentMethodRadio3"
+                                    value="Thanh toán bằng thẻ thành viên"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="paymentMethodRadio3"
+                                    >Thanh toán bằng thẻ thành viên</label
+                                >
+                            </div>
+                            <br />
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentMethodRadio4"
+                                    value="Thanh toán qua chuyển khoản"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="paymentMethodRadio4"
+                                    >Thanh toán qua chuyển khoản</label
+                                >
+                            </div>
+                            <div
+                                class="payment-method-4-description"
+                                style="display: none"
+                            >
+                                <p class="info">
+                                    Khi thanh toán tiền, Quý khách hàng vui lòng
+                                    ghi rõ nội dung chuyển khoản như sau:
+                                </p>
+                                <b>"Số điện thoại"_"Mã đặt mua".</b>
+                                <p class="info">
+                                    Nội dung chuyển khoản chính xác sẽ đuộc
+                                    chúng tôi cung cấp tại bước tiếp theo
+                                </p>
+                                <h5>Thông tin đơn vị thụ hưởng</h5>
+                                <p class="info"><b>1. ABCBank</b></p>
+                                <p class="info">Chủ tài khoản: Nguyễn Văn A</p>
+                                <p class="info">STK: 00000011101021</p>
+                                <p class="info">
+                                    Ngân hàng: Ngân hàng ABCDEF - Chi nhánh GHI
+                                    - JKL
+                                </p>
+                            </div>
+                            <br />
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentMethodRadio5"
+                                    value="Thanh toán tại trung tâm"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="paymentMethodRadio5"
+                                    >Thanh toán tại trung tâm</label
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="button-container d-flex flex-row">
+                    <button type="button" class="btn btn-secondary" id="back">
+                        QUAY LẠI
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="check-out"
+                    >
+                        THANH TOÁN
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="registration-info-container p-2">
+                    <div class="customers-info">
+                        <h4>Danh sách người tiêm</h4>
+                        <div class="customer-list"></div>
+                        <div
+                            class="total-container d-flex flex-row align-items-center justify-content-between"
+                        >
+                            <p class="info" style="vertical-align: middle">
+                                Tổng số tiền cần thanh toán
+                            </p>
+                            <label id="total-price">0 VNĐ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="templates" hidden>
+            <div class="customer-item-template" hidden>
+                <div class="customer-item">
+                    <div class="row">
+                        <div class="col">
+                            <label class="name-relationship"
+                                >Họ và tên (Mối quan hệ)</label
+                            >
+                            <p class="vaccines-info">Vắc xin:</p>
+                            <p class="vnvc-center-info">Trung tâm:</p>
+                        </div>
+                        <div class="actions col-auto">
+                            <button class="btn btn-info edit-customer">
+                                Sửa
+                            </button>
+                            <button class="btn btn-danger remove-customer">
+                                Xoá
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="subtotal d-flex flex-row align-items-center justify-content-between"
+                    >
+                        <p class="info" style="vertical-align: middle">
+                            Thành tiền
+                        </p>
+                        <label class="subtotal-price">180.000 VNĐ</label>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </div>
+        </div>
+        <script src="./index.js"></script>
+    </body>
+</html>

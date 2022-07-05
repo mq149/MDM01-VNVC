@@ -9,18 +9,42 @@ namespace MDM01_VNVC.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VaccinePriceListController : ControllerBase
+    public class VaccinePriceListController : ControllerBase, IDisposable
     {
         private readonly IOptions<GraphDatabaseSettings> settings;
         private readonly IDriver _driver;
+        private bool _disposed = false;
         private Action<SessionConfigBuilder> sessionConfig;
 
         public VaccinePriceListController(IOptions<GraphDatabaseSettings> settings)
         {
             this.settings = settings;
+            Console.WriteLine(settings.Value.URI);
+            Console.WriteLine(settings.Value.User);
+            Console.WriteLine(settings.Value.Password);
             _driver = GraphDatabase.Driver(settings.Value.URI,
                 AuthTokens.Basic(settings.Value.User, settings.Value.Password));
-            sessionConfig = SessionConfigBuilder.ForDatabase(settings.Value.DatabaseName);
+            sessionConfig = SessionConfigBuilder.ForDatabase("vnvc");
+        }
+
+        ~VaccinePriceListController() => Dispose(false);
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _driver?.Dispose();
+            }
+            _disposed = true;
         }
 
         [HttpGet]
@@ -29,6 +53,7 @@ namespace MDM01_VNVC.Controllers
             List<Vaccine> vaccines = new List<Vaccine>();
             using (var session = _driver.Session(sessionConfig))
             {
+
                 var result = session.Run(
                     "MATCH (v:Vaccine)" +
                     "RETURN v");
