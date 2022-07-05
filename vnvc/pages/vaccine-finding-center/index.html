@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../../common/app.css" />
+        <link rel="stylesheet" href="./index.css" />
+        <title>VNVC - Finding Injection Center</title>
+    </head>
+    <body>
+        <div id="app" class="p-4">
+            <h1 style="text-align:center">TÌM TRUNG TÂM</h1>
+            <p>
+              <b style="color: blue"
+                  >Là trung tâm tiêm chủng cho trẻ em và người lớn chất lượng hàng đầu, VNVC đang mở rộng hệ thống các trung tâm giúp mang chất lượng dịch vụ tốt nhất với giá cực kỳ ưu đãi đến người dân trên khắp cả nước. Tại hệ thống tiêm chủng VNVC, chúng tôi luôn mong muốn đem lại sự thuận tiện, thoải mái và yên tâm cho khách hàng.
+                  Khách hàng sẽ được Bác sĩ chuyên khoa kiểm tra sức khỏe và tư vấn các mũi tiêm phù hợp với lứa tuổi.
+                  Đội ngũ điều dưỡng được đào tạo chuyên biệt về tiêm chủng cùng với sự chu đáo và nhiệt tình chăm sóc trẻ.
+                  Phòng tiêm với đầy đủ các trang thiết bị y tế đạt chuẩn cao cấp. Không gian phòng chờ trước tiêm và sau tiêm rộng rãi, thoáng mát, đầy màu sắc cuốn hút, tạo sự thân thiện với trẻ.
+                  
+                  Ngoài ra mẹ và bé còn có khu vực riêng cho con bú, phòng thay tã, phòng pantry… để con được thoải mái như đang ở nhà.
+                  Với cơ sở vật chất và chất lượng dịch vụ 5 sao, giá vắc xin tại VNVC cực kỳ cạnh tranh và đặc biệt, chỉ tính phí vắc xin, các tiện ích kèm theo đều được miễn phí như: khám sàng lọc trước tiêm, gửi xe, khu vui chơi, nước uống, wifi, các phòng riêng cho mẹ và bé....</b>
+            </p>
+            <div style="text-align:center">
+              <!-- <input type="submit" value="Tra cứu"></input>  -->
+              <button type="button" id="buttonHN" onclick="findingCenterHN()"> Hà Nội </button>
+              <button type="button" id="buttonTPHCM" onclick="findingCenterTPHCM()"> TP.HCM </button>
+             <!-- <label for="orthers">TỈNH THÀNH KHÁC</label> -->
+             <select name="orthers" id="comboelement" onchange="loadDistrict(this)">
+                <option value="" disabled selected> TỈNH THÀNH KHÁC </option>
+            </select>
+                <br><br>
+                <div class="table-container">
+                    <table id="finding-center" class="">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên trung tâm</th>
+                                <th scope="col">Địa chỉ</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+          </br>
+            
+        </div>
+        <script>
+            function findingCenterHN(){
+                var bodyRef = document.getElementById('finding-center').getElementsByTagName('tbody')[0]; 
+                bodyRef.innerHTML = '';
+                const $select = document.querySelector('#comboelement');
+                $select.value = 'TỈNH THÀNH KHÁC';
+                const btn1 = document.getElementById('buttonHN');
+                btn1.style.backgroundColor = 'blue';
+                btn1.style.color = 'white';
+                const btn2 = document.getElementById('buttonTPHCM');
+                btn2.style.backgroundColor = 'white';
+                btn2.style.color = 'black';
+
+                var request = new XMLHttpRequest();
+
+                request.onreadystatechange = function () {
+                if (this.readyState == 4 && request.status == 200)
+                {
+                    const datas = JSON.parse(request.responseText);
+                    datas.forEach((data, index) => {
+                    if (data.tinh == 'HÀ NỘI')
+                    {
+                        var results = data.trungTam;
+                        console.log(results);
+                        results.forEach((result, index) => {
+                        //console.log(data);
+                            let rowHtml = `
+                            <tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>${result.tenTT}</td>
+                            <td>${result.diaChi}</td>
+                            </tr>
+                            `;
+                            $("table#finding-center tbody").append(rowHtml);
+                        });
+                    }
+          
+                    });
+                }
+                if (this.readyState == 4 && request.status != 200)
+                {
+                    callback('Something wrongs', undefined);
+                }
+                }
+
+                request.open("GET", "https://localhost:5001/InjectionCenter")
+                request.send();
+
+            }
+            function findingCenterTPHCM(){
+                var bodyRef = document.getElementById('finding-center').getElementsByTagName('tbody')[0]; 
+                bodyRef.innerHTML = '';
+                const $select = document.querySelector('#comboelement');
+                $select.value = 'TỈNH THÀNH KHÁC';
+                const btn1 = document.getElementById('buttonTPHCM');
+                btn1.style.backgroundColor = 'blue';
+                btn1.style.color = 'white';
+                const btn2 = document.getElementById('buttonHN');
+                btn2.style.backgroundColor = 'white';
+                btn2.style.color = 'black';
+
+
+                var request = new XMLHttpRequest();
+
+                request.onreadystatechange = function () {
+                if (this.readyState == 4 && request.status == 200)
+                {
+                    const datas = JSON.parse(request.responseText);
+                    datas.forEach((data, index) => {
+                    if (data.tinh == 'TP.HCM')
+                    {
+                        var results = data.trungTam;
+                        results.forEach((result, index) => {
+                        //console.log(data);
+                            let rowHtml = `
+                            <tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>${result.tenTT}</td>
+                            <td>${result.diaChi}</td>
+                            </tr>
+                            `;
+                            $("table#finding-center tbody").append(rowHtml);
+                        });
+                    }
+          
+                    });
+                }
+                if (this.readyState == 4 && request.status != 200)
+                {
+                    callback('Something wrongs', undefined);
+                }
+                }
+
+                request.open("GET", "https://localhost:5001/InjectionCenter")
+                request.send();
+
+            }
+
+            function loadDistrict(item)
+            {
+                var selectedItem = item.options[item.selectedIndex];
+                var bodyRef = document.getElementById('finding-center').getElementsByTagName('tbody')[0]; 
+                bodyRef.innerHTML = '';
+                const btn1 = document.getElementById('buttonTPHCM');
+                btn1.style.backgroundColor = 'white';
+                btn1.style.color = 'black';
+                const btn2 = document.getElementById('buttonHN');
+                btn2.style.backgroundColor = 'white';
+                btn2.style.color = 'black';
+
+
+                var request = new XMLHttpRequest();
+
+                request.onreadystatechange = function () {
+                if (this.readyState == 4 && request.status == 200)
+                {
+                    const datas = JSON.parse(request.responseText);
+                    datas.forEach((data, index) => {
+                    if (data.tinh == selectedItem.innerHTML)
+                    {
+                        var results = data.trungTam;
+                        results.forEach((result, index) => {
+                        //console.log(data);
+                            let rowHtml = `
+                            <tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>${result.tenTT}</td>
+                            <td>${result.diaChi}</td>
+                            </tr>
+                            `;
+                            $("table#finding-center tbody").append(rowHtml);
+                        });
+                    }
+          
+                    });
+                }
+                if (this.readyState == 4 && request.status != 200)
+                {
+                    callback('Something wrongs', undefined);
+                }
+                }
+
+                request.open("GET", "https://localhost:5001/InjectionCenter")
+                request.send();
+
+            }
+        </script>
+        <script type="module" src="./index.js"></script>         
+    </body>
+</html>
+
+
