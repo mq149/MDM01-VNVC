@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"/>
+    <link rel="stylesheet" href="../../common/app.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>VNVC - Ask A Question</title>
+  </head>
+
+  <body>
+    <script src="./index.js"></script>
+    <div class="'container">
+      <h5>Đặt câu hỏi tư vấn</h5>
+      <br />
+      <div class="row p-5">
+        <div class="col-9">
+          <h5>Danh sách câu hỏi</h5>
+          <br />
+          <div class="row">
+            <div class="ask-box" id="ask-box">
+              <div class="question">
+              </div>
+              <div class="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <h5>Đặt câu hỏi</h5>
+          <br />
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="name">Họ và tên</label> <br />
+                <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="sex">Giới tính</label> <br />
+                <select id="sex" name="sex" type="text" class="form-control">
+                <option value="" selected>Giới tính</option>
+                <option value="1">Nam</option>
+                <option value="2">Nữ</option>
+              </select>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="age">Tuổi</label> <br />
+                <input type="text" class="form-control" id="age" placeholder="Tuổi" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="email">Email</label> <br />
+                <input type="text" class="form-control" id="email" placeholder="Email" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="address">Địa chỉ</label> <br />
+                <input type="text" class="form-control" id="address" placeholder="Địa chỉ" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="phone">Số điện thoại</label> <br />
+                <input type="text" class="form-control" id="phone" placeholder="Số điện thoại" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="title">Vấn đề muốn hỏi</label> <br />
+                <select name="title" class="form-control" type="text" id="title">
+                  <option value="" selected>Chúng tôi có thể giúp gì cho bạn</option>
+                  <option value="1">Vác xin cho trẻ em</option>
+                  <option value="2">Vác xin cho người lớn</option>
+                  <option value="3">Bệnh truyền nghiễm</option>
+                  <option value="4">Phương pháp phòng ngừa</option>
+                  <option value="5">Chi phí</option>
+                  <option value="6">Thủ tục</option>
+                  <option value="7">Khác</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="question">Câu hỏi của bạn</label> <br />
+                 <textarea name="question" id="question" class="form-control" placeholder="Câu hỏi của bạn"></textarea>           
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for=""> Câu trả lời sẽ được gửi qua Email.</label>
+          </div>
+          <div>
+            <input type="submit" id="button_ask" value="Gửi câu hỏi" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="footer"></div>
+      </div>
+    </div>
+  </body>
+</html>
