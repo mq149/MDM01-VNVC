@@ -18,5 +18,6 @@ namespace MDM01_VNVC.Models
         public string VaccineRegistrationCollectionName { get; set; } = null!;
         
         public string BookAppointmentsCollectionName { get; set; } = null!;
+        public string AskAQuestionCollectionName { get; set; } = null!;
     }
 }
