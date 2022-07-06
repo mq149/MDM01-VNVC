@@ -19,5 +19,6 @@ namespace MDM01_VNVC.Models
         
         public string BookAppointmentsCollectionName { get; set; } = null!;
         public string AskAQuestionCollectionName { get; set; } = null!;
+        public string FrequentQuestionsCollectionName { get; set; } = null!;
     }
 }
